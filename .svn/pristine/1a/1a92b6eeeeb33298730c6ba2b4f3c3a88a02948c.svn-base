@@ -1,0 +1,349 @@
+package falstad;
+
+import java.util.Arrays;
+
+import generation.CardinalDirection;
+import generation.MazeConfiguration;
+
+public class Sensors {
+	
+	MazeController controller; 
+	MazeConfiguration container;
+	
+	public Sensors(){
+		controller = new MazeController();
+		container = controller.getMazeConfiguration();
+	}
+	
+	public Sensors(MazeController mazeController){
+		controller = mazeController;
+		container = controller.getMazeConfiguration();
+	}
+	
+	public Sensors(MazeController mazeController, MazeConfiguration mazeContainer){
+		controller = mazeController;
+		container = mazeContainer;
+		
+	}
+////////North is South; South is North////////////////////////
+	public int left(){
+		//get current Cardinal direction
+		//get current position
+		
+		//figure out what robot's "left" is
+		//if current direction is North, "left" is to the West
+		//if current direction is West, "left" is to the South
+		//if current direction is South, "left" is to the East
+		//if current direction is East, "left" is to the North
+		
+		//initialize a counter
+		//while there isn't a wall, 
+			//update current position
+			//update counter
+		//if there is a wall, return counter
+		
+		//direction robot is facing
+		CardinalDirection currDir = controller.getCurrentDirection();
+		int[] currPos = controller.getCurrentPosition();
+				
+		CardinalDirection left = CardinalDirection.South;
+		
+		if (currDir == CardinalDirection.South){
+			left = CardinalDirection.West; 
+		}
+		if (currDir == CardinalDirection.West){
+			left = CardinalDirection.North; 
+		}
+		if (currDir == CardinalDirection.North){
+			left = CardinalDirection.East; 
+		}
+		if (currDir == CardinalDirection.East){
+			left = CardinalDirection.South; 
+		}
+
+		
+		int moves = 0;
+//		assert(this.container == null) : "container in sensors method is null";
+		while ((container.isValidPosition(currPos[0], currPos[1]) == true && 
+				container.hasWall(currPos[0], currPos[1], left) == false) &&
+				container.getDistanceToExit(currPos[0], currPos[1]) != 1) {
+			
+			
+			//update currPos
+			if (currDir == CardinalDirection.South) {
+				currPos[0] = currPos[0] - 1; 
+			}
+			
+			if (currDir == CardinalDirection.North) {
+				currPos[0] = currPos[0] + 1; 
+			}
+			
+			if (currDir == CardinalDirection.East) {
+				currPos[1] = currPos[1] + 1; 
+			}
+			
+			if (currDir == CardinalDirection.West) {
+				currPos[1] = currPos[1] - 1; 
+			}
+			
+			//update counter
+			moves++;
+		}
+		
+		int movesAtExit = Integer.MAX_VALUE;
+		if (container.getDistanceToExit(currPos[0], currPos[1]) == 1 && 
+				container.hasWall(currPos[0], currPos[1], left) == false){
+			return movesAtExit;
+			
+		}
+		
+		return moves;
+	}
+	//originally right
+	public int right(){
+		
+		CardinalDirection currDir = controller.getCurrentDirection();
+		int[] currPos = controller.getCurrentPosition();
+		
+		CardinalDirection right = CardinalDirection.South;
+		
+		if (currDir == CardinalDirection.South){
+			right = CardinalDirection.East; 
+		}
+		if (currDir == CardinalDirection.West){
+			right = CardinalDirection.South; 
+		}
+		if (currDir == CardinalDirection.North){
+			right = CardinalDirection.West; 
+		}
+		if (currDir == CardinalDirection.East){
+			right = CardinalDirection.North; 
+		}
+
+		
+//		container.getStartingPosition() != currPos &&
+//		container.getDistanceToExit(currPos[0], currPos[1]) != 0
+		int moves = 0;
+		while (container.isValidPosition(currPos[0], currPos[1]) == true &&
+				container.hasWall(currPos[0], currPos[1], right) == false &&
+				container.getDistanceToExit(currPos[0], currPos[1]) != 1){
+
+		
+
+			//update currPos
+			if (currDir == CardinalDirection.South) {
+				currPos[0] = currPos[0] + 1; 
+			}
+			
+			if (currDir == CardinalDirection.North) {
+				currPos[0] = currPos[0] - 1; 
+			}
+			
+			if (currDir == CardinalDirection.East) {
+				currPos[1] = currPos[1] - 1; 
+			}
+			
+			if (currDir == CardinalDirection.West) {
+				currPos[1] = currPos[1] + 1; 
+			}
+			
+			//update counter
+			moves++;
+		}
+		int movesAtExit = Integer.MAX_VALUE;
+		if (container.getDistanceToExit(currPos[0], currPos[1]) == 1 &&
+				container.hasWall(currPos[0], currPos[1], right) == false){
+			return movesAtExit;
+			
+		}
+
+		return moves;
+		
+	}
+	//originally forward
+	public int forward(){
+		CardinalDirection currDir = controller.getCurrentDirection();
+		int[] currPos = controller.getCurrentPosition();
+		
+		CardinalDirection forward = CardinalDirection.South;
+		
+		if (currDir == CardinalDirection.South){
+			forward = CardinalDirection.South; 
+		}
+		if (currDir == CardinalDirection.West){
+			forward = CardinalDirection.West; 
+		}
+		if (currDir == CardinalDirection.North){
+			forward = CardinalDirection.North; 
+		}
+		if (currDir == CardinalDirection.East){
+			forward = CardinalDirection.East; 
+		}
+
+			
+		int moves = 0;
+		while (container.getDistanceToExit(currPos[0], currPos[1]) != 1 &&
+				container.isValidPosition(currPos[0], currPos[1]) 
+				&& container.hasWall(currPos[0], currPos[1], forward) == false
+				){
+			
+
+			//update currPos
+			if (currDir == CardinalDirection.South) {
+				currPos[1] = currPos[1] + 1; 
+			}
+			
+			if (currDir == CardinalDirection.North) {
+				currPos[1] = currPos[1] - 1; 
+			}
+			
+			if (currDir == CardinalDirection.East) {
+				currPos[0] = currPos[0] + 1; 
+			}
+			
+			if (currDir == CardinalDirection.West) {
+				currPos[0] = currPos[0] - 1; 
+			}
+			
+			//update counter
+			moves++;
+			
+		}
+		int movesAtExit = Integer.MAX_VALUE;
+		if (container.getDistanceToExit(currPos[0], currPos[1]) == 1 && 
+				container.hasWall(currPos[0], currPos[1], forward) == false){
+			return movesAtExit;
+			
+		}
+		return moves;
+	}
+	//originally backward
+	public int backward(){
+		CardinalDirection currDir = controller.getCurrentDirection();
+		int[] currPos = controller.getCurrentPosition();
+		
+		CardinalDirection backward = CardinalDirection.South;
+		
+		if (currDir == CardinalDirection.South){
+			backward = CardinalDirection.North; 
+		}
+		if (currDir == CardinalDirection.West){
+			backward = CardinalDirection.East; 
+		}
+		if (currDir == CardinalDirection.North){
+			backward = CardinalDirection.South; 
+		}
+		if (currDir == CardinalDirection.East){
+			backward = CardinalDirection.West; 
+		}
+			
+		
+		int moves = 0;
+			while ( container.getDistanceToExit(currPos[0], currPos[1]) != 1 &&
+					container.isValidPosition(currPos[0], currPos[1]) == true &&
+					container.hasWall(currPos[0], currPos[1], backward) == false 
+					){
+	
+	
+				
+				//update currPos
+				if (currDir == CardinalDirection.South) {
+					currPos[1] = currPos[1] - 1; 
+				}
+				
+				if (currDir == CardinalDirection.North) {
+					currPos[1] = currPos[1] + 1; 
+				}
+				
+				if (currDir == CardinalDirection.East) {
+					currPos[0] = currPos[0] - 1; 
+				}
+				
+				if (currDir == CardinalDirection.West) {
+					currPos[0] = currPos[0] + 1; 
+				}
+				
+				//update counter
+				moves++;
+			}
+		
+	
+		int movesAtExit = Integer.MAX_VALUE;
+		if (container.getDistanceToExit(currPos[0], currPos[1]) == 1 &&
+				container.hasWall(currPos[0], currPos[1], backward) == false){
+			return movesAtExit;
+			
+		}
+		return moves;
+	}
+	
+	
+	public boolean inRoom(){
+		
+		//initialize room boolean to equal false
+		boolean room = false; 
+		//get current position
+		int[] currPos = controller.getCurrentPosition();
+		
+		//if hasWall North and East of currPos is false
+			//if hasWall West and South of diagonal (currPos[x+1][y+1]) is false
+			//set room to true
+		
+		if (container.hasWall(currPos[0], currPos[1], CardinalDirection.South) == false 
+				&& container.hasWall(currPos[0], currPos[1], CardinalDirection.East) == false) {
+			
+			if (container.hasWall(currPos[0] + 1, currPos[1] + 1, CardinalDirection.West) == false 
+					&& container.hasWall(currPos[0] + 1, currPos[1] + 1, CardinalDirection.North) == false) {
+				
+				room = true; 
+			}
+		}
+		
+		//if hasWall East and South of currPos is false
+			//if hasWall of North and West of diagonal (currPos[x+1][y-1]) is false
+			//set room to true
+		
+		if (container.hasWall(currPos[0], currPos[1], CardinalDirection.East) == false 
+				&& container.hasWall(currPos[0], currPos[1], CardinalDirection.North) == false) {
+			
+			if (container.hasWall(currPos[0] + 1, currPos[1] - 1, CardinalDirection.South) == false 
+					&& container.hasWall(currPos[0] + 1, currPos[1] - 1, CardinalDirection.West) == false) {
+				
+				room = true; 
+			}
+		}
+		
+		//if hasWall South and West of currPos is false
+			//if hasWall of North and East of diagonal (currPos[x-1][y-1]) is false
+			//set room to true
+		
+		if (container.hasWall(currPos[0], currPos[1], CardinalDirection.North) == false 
+				&& container.hasWall(currPos[0], currPos[1], CardinalDirection.West) == false) {
+			
+			if (container.hasWall(currPos[0] - 1, currPos[1] - 1, CardinalDirection.South) == false 
+					&& container.hasWall(currPos[0] - 1, currPos[1] - 1, CardinalDirection.East) == false) {
+				
+				room = true; 
+			}
+		}
+		
+		//if hasWall West and North of currPos is false
+			//if hasWall of East and South of diagonal (currPos[x-1][y+1]) is false
+			//set room to true
+		
+		
+		if (container.hasWall(currPos[0], currPos[1], CardinalDirection.West) == false 
+				&& container.hasWall(currPos[0], currPos[1], CardinalDirection.South) == false) {
+			
+			if (container.hasWall(currPos[0] - 1, currPos[1] + 1, CardinalDirection.East) == false 
+					&& container.hasWall(currPos[0] - 1, currPos[1] + 1, CardinalDirection.North) == false) {
+				
+				room = true; 
+			}
+		}
+		
+		
+		return room;
+	}
+	
+}

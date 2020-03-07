@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="/Users/julianadajon/AndroidStudioProjects/AMazeByJulianaDajon/app/build/intermediates/exploded-aar/com.android.support/support-v4/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="/Users/julianadajon/AndroidStudioProjects/AMazeByJulianaDajon/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-v4-24.2.1_44cca2e4fe2ac97f6ad01e05d499729138966cd2/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/julianadajon/AndroidStudioProjects/AMazeByJulianaDajon/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="09b462bbcb77650284bd6614f1a32f360ef369f8">
+        <dex dex="/Users/julianadajon/AndroidStudioProjects/AMazeByJulianaDajon/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-media-compat-24.2.1_016b687df8856cc7bcc23d0289582b9810c88765/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/julianadajon/AndroidStudioProjects/AMazeByJulianaDajon/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="94bc1dfb84dcc8b6f6f8f7cc726d7b2dd39c1574">
+        <dex dex="/Users/julianadajon/AndroidStudioProjects/AMazeByJulianaDajon/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-animated-vector-drawable-24.2.1_3a9e4919e825ad5145f1079ebf46605723a6a477/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/julianadajon/AndroidStudioProjects/AMazeByJulianaDajon/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="9c4c3bc902450c39ed54de170db4fb12aea20a35">
+        <dex dex="/Users/julianadajon/AndroidStudioProjects/AMazeByJulianaDajon/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-utils-24.2.1_53954efb9c7fedeea05875fd81aa8b9718a66666/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/julianadajon/AndroidStudioProjects/AMazeByJulianaDajon/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="b098561ec2ea936815038d137886a30be956a4e4">
+        <dex dex="/Users/julianadajon/AndroidStudioProjects/AMazeByJulianaDajon/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_5f5cf95c339513ed8c3824346a81f17f131efc7d/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/julianadajon/AndroidStudioProjects/AMazeByJulianaDajon/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="d5c731fc64c03dfe04d51134955b483551c35849">
+        <dex dex="/Users/julianadajon/AndroidStudioProjects/AMazeByJulianaDajon/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-vector-drawable-24.2.1_b70eddcefe52658ebd89dcc8abf0e64bc33550a4/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/julianadajon/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/24.2.1/support-annotations-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="8de3aafecbdf98a61db6427f008f2d515bcd2544">
+        <dex dex="/Users/julianadajon/AndroidStudioProjects/AMazeByJulianaDajon/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-24.2.1_5204c1b3190df9bc7fecbc79a1ea88c68e3a6549/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/julianadajon/AndroidStudioProjects/AMazeByJulianaDajon/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="43b2dba6b5a0b14527961b75329d0b90025f15ea">
+        <dex dex="/Users/julianadajon/AndroidStudioProjects/AMazeByJulianaDajon/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-appcompat-v7-24.2.1_2bd884b82b8f9b87740d58eb45a26fa87dd5d761/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/julianadajon/AndroidStudioProjects/AMazeByJulianaDajon/app/build/intermediates/exploded-aar/com.android.support/support-compat/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="0ecb4b595fa0f0f8018a149ace3ea6525624f94e">
+        <dex dex="/Users/julianadajon/AndroidStudioProjects/AMazeByJulianaDajon/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-compat-24.2.1_1f8e0db74880e0ffc1c3b43713befe9767e0ff3a/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/julianadajon/AndroidStudioProjects/AMazeByJulianaDajon/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/24.2.1/jars/libs/internal_impl-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="935a969265b2a166b2d20415423f5f6e90fe16e0">
+        <dex dex="/Users/julianadajon/AndroidStudioProjects/AMazeByJulianaDajon/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.2.1_5ee917cf25c5e07639a1c3fced2f9fd059e20286/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/julianadajon/AndroidStudioProjects/AMazeByJulianaDajon/app/build/intermediates/exploded-aar/com.android.support/support-fragment/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="b9a1ac78ad7ef3abedc4a4b30cd92bcacb939d1f">
+        <dex dex="/Users/julianadajon/AndroidStudioProjects/AMazeByJulianaDajon/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-fragment-24.2.1_603b64f3c063010fe3ce9ec6b244c7c3c885938f/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/julianadajon/AndroidStudioProjects/AMazeByJulianaDajon/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/24.2.1/jars/libs/internal_impl-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="fbf8da429efd5ad21e02e3e5ecaa1efc4167878d">
+        <dex dex="/Users/julianadajon/AndroidStudioProjects/AMazeByJulianaDajon/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.2.1_f771b6ad2f449c76d33cdd0cae3f715e9ad296b8/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/julianadajon/AndroidStudioProjects/AMazeByJulianaDajon/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="e2c6767117e03c0bd7f7dacd3162419f98e67bcd">
+        <dex dex="/Users/julianadajon/AndroidStudioProjects/AMazeByJulianaDajon/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_21bd7dd20afe19bfd1ce5ebb45992a9e9a6f974e/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/julianadajon/AndroidStudioProjects/AMazeByJulianaDajon/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="e7f3132168957eefc46229fc32c3bd464642b71e">
+        <dex dex="/Users/julianadajon/AndroidStudioProjects/AMazeByJulianaDajon/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-ui-24.2.1_dc9153d4b752375da62ff9d0e9256baa85a3aa89/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/julianadajon/AndroidStudioProjects/AMazeByJulianaDajon/app/build/intermediates/exploded-aar/com.android.support/support-compat/24.2.1/jars/libs/internal_impl-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="7e4389bd133359a2ff88623ff1e4ff93d6e6f780">
+        <dex dex="/Users/julianadajon/AndroidStudioProjects/AMazeByJulianaDajon/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.2.1_c1dc2f1abaaec5529e36d7872d4716b6d31d68bd/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/julianadajon/AndroidStudioProjects/AMazeByJulianaDajon/app/build/intermediates/exploded-aar/com.android.support/support-fragment/24.2.1/jars/libs/internal_impl-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="5f64d657e838e8375135c0f6057a7ff8fab6a50e">
+        <dex dex="/Users/julianadajon/AndroidStudioProjects/AMazeByJulianaDajon/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.2.1_a77babbd4499a27ab538285fa488660515e8d0e6/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/julianadajon/AndroidStudioProjects/AMazeByJulianaDajon/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/24.2.1/jars/libs/internal_impl-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="867dad63c33388ff8c7644b236579355036d075f">
+        <dex dex="/Users/julianadajon/AndroidStudioProjects/AMazeByJulianaDajon/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.2.1_f6c2d4d2dfedfa2b61c15e495f5fa6abb5261ec6/classes.dex" />
+    </item>
+
+</items>

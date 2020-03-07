@@ -1,0 +1,422 @@
+package falstad;
+
+import static org.junit.Assert.*;
+
+import java.util.Arrays;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import falstad.Constants.StateGUI;
+import falstad.Robot.Direction;
+import falstad.Robot.Turn;
+import generation.CardinalDirection;
+import generation.Cells;
+import generation.Distance;
+import generation.MazeConfiguration;
+import generation.MazeContainer;
+import generation.MazeFactory;
+import generation.Order;
+import generation.Stub;
+import generation.Order.Builder;
+
+public class BasicRobotTest {
+	
+	Builder builder;
+	int skill;
+	Boolean perfect;
+
+	MazeControllerForTests controller;
+	Robot robot;
+
+	MazeConfiguration mazeConfig;
+	Stub myStub;
+//	MazeConfiguration stubMazeConfig;
+	Sensors sensor;
+	
+	MazeFactory mazeFact;
+	
+	Cells cells;
+	Distance distance;
+	
+	@Before
+	public void SetUp() {
+		builder = Builder.Prim;
+		skill = 0;
+		perfect = true;
+		
+		controller = new MazeControllerForTests(builder);
+		controller.setState(StateGUI.STATE_PLAY);
+
+		
+		mazeConfig = controller.getMazeConfiguration(); 
+		cells = new Cells(4, 4);
+		distance = new Distance(4, 4);
+		mazeConfig.setMazecells(cells);
+		mazeConfig.setMazedists(distance);
+		
+		myStub = new Stub(mazeConfig, skill, builder, perfect);
+//		for maze configuration always use myStub.getMazeConfiguration();
+
+		mazeFact = new MazeFactory(true);
+		mazeFact.order(myStub);
+		mazeFact.waitTillDelivered();
+		
+		sensor = new Sensors(controller, myStub.getMazeConfiguration());
+		robot = new BasicRobot(sensor, myStub.getMazeConfiguration());
+		robot.setMaze(controller);
+	}
+	
+	@After
+	public void tearDown() throws Exception {
+	}
+
+	////////LEFT SENSORS/////////
+	
+	/**
+	 * This case tests the left sensor in the Sensor class.
+	 */
+	@Test
+	public void testSensorLeft03() {
+		
+		controller.setCurrentPosition(0, 3);
+		controller.setCurrentDirection(1, 0);
+		int distanceToWall = sensor.left();
+		
+		assertEquals(0, distanceToWall);
+
+	}
+	
+	/**
+	 * This case tests the left sensor in the Sensor class.
+	 */
+	@Test
+	public void testSensorLeft13() {
+		
+		controller.setCurrentPosition(1, 3);
+		controller.setCurrentDirection(1, 0);			
+		int distanceToWall = sensor.left();
+		
+		assertEquals(0, distanceToWall);
+
+	}
+	
+	/**
+	 * This case tests the left sensor in the Sensor class.
+	 */
+	@Test
+	public void testSensorLeft23() {
+		
+		controller.setCurrentPosition(2, 3);
+		controller.setCurrentDirection(1, 0);		
+		int distanceToWall = sensor.left();
+		
+		assertEquals(0, distanceToWall);
+
+	}
+	
+	/**
+	 * This case tests the left sensor in the Sensor class.
+	 */
+	@Test
+	public void testSensorLeft33() {
+		
+		controller.setCurrentPosition(3, 3);
+		controller.setCurrentDirection(1, 0);		
+		int distanceToWall = sensor.left();
+		
+		assertEquals(0, distanceToWall);
+
+	}
+	
+	////////RIGHT SENSORS/////////
+	
+	
+	/**
+	 * This case tests the right sensor in the Sensor class.
+	 */
+	@Test
+	public void testSensorRight00() {
+		
+		controller.setCurrentPosition(0, 0);
+		controller.setCurrentDirection(1, 0);		
+		int distanceToWall = sensor.right();
+	
+		assertEquals(0, distanceToWall);
+	}
+	
+	/**
+	 * This case tests the right sensor in the Sensor class.
+	 */
+	@Test
+	public void testSensorRight10() {
+		controller.setCurrentPosition(1, 0);
+		controller.setCurrentDirection(1, 0);		
+		int distanceToWall = sensor.right();
+		
+		assertEquals(0, distanceToWall);
+	}
+	
+	/**
+	 * This case tests the right sensor in the Sensor class.
+	 */
+	@Test
+	public void testSensorRight20() {
+		controller.setCurrentPosition(2, 0);
+		controller.setCurrentDirection(1, 0);		
+		int distanceToWall = sensor.right();
+		
+		assertEquals(0, distanceToWall);
+	}
+	
+	/**
+	 * This case tests the right sensor in the Sensor class.
+	 */
+	@Test
+	public void testSensorRight30() {
+		controller.setCurrentPosition(3, 0);
+		controller.setCurrentDirection(1, 0);
+		int distanceToWall = sensor.right();
+		
+		assertEquals(0, distanceToWall);
+	}
+	
+	
+	////////FORWARD SENSORS/////////
+	
+	/**
+	 * This case tests the forward sensor in the Sensor class.
+	 */
+	@Test
+	public void testSensorForward30() {
+		controller.setCurrentPosition(3, 0);
+		controller.setCurrentDirection(1, 0);
+		int distanceToWall = sensor.forward();
+		
+		assertEquals(0, distanceToWall);
+	}
+	
+	/**
+	 * This case tests the forward sensor in the Sensor class.
+	 */
+	@Test
+	public void testSensorForward31() {
+		controller.setCurrentPosition(3, 1);
+		controller.setCurrentDirection(1, 0);		
+		int distanceToWall = sensor.forward();
+		
+		assertEquals(0, distanceToWall);
+	}
+	
+	/**
+	 * This case tests the forward sensor in the Sensor class.
+	 */
+	@Test
+	public void testSensorForward32() {
+		controller.setCurrentPosition(3, 2);
+		controller.setCurrentDirection(1, 0);
+		int distanceToWall = sensor.forward();
+		
+		assertEquals(0, distanceToWall);
+	}
+	
+	/**
+	 * This case tests the forward sensor in the Sensor class.
+	 */
+	@Test
+	public void testSensorForward33() {
+		controller.setCurrentPosition(3, 3);
+		controller.setCurrentDirection(1, 0);
+		int distanceToWall = sensor.forward();
+		
+		assertEquals(0, distanceToWall);
+	}
+	
+	
+	////////BACKWARD SENSORS/////////
+	
+	/**
+	 * This case tests the backward sensor in the Sensor class.
+	 */
+	@Test
+	public void testSensorBackward00() {
+		controller.setCurrentPosition(0, 0);
+		controller.setCurrentDirection(1, 0);
+		int distanceToWall = sensor.backward();
+		
+		assertEquals(0, distanceToWall);
+	}	
+	
+	/**
+	 * This case tests the backward sensor in the Sensor class.
+	 */
+	@Test
+	public void testSensorBackward01() {
+		controller.setCurrentPosition(0, 1);
+		controller.setCurrentDirection(1, 0);
+		int distanceToWall = sensor.backward();
+		
+		assertEquals(0, distanceToWall);
+	}
+	
+	/**
+	 * This case tests the backward sensor in the Sensor class.
+	 */
+	@Test
+	public void testSensorBackward02() {
+		controller.setCurrentPosition(0, 2);
+		controller.setCurrentDirection(1, 0);		
+		int distanceToWall = sensor.backward();
+		
+		assertEquals(0, distanceToWall);
+	}
+	
+	/**
+	 * This case tests the backward sensor in the Sensor class.
+	 */
+	@Test
+	public void testSensorBackward03() {
+		controller.setCurrentPosition(0, 3);
+		controller.setCurrentDirection(1, 0);	
+		int distanceToWall = sensor.backward();
+		
+		assertEquals(Integer.MAX_VALUE, distanceToWall);
+	}
+	
+	
+	//////////////////////////////test room sensor////////////////////////////
+	@Test
+	public void testSensorRooms(){
+		
+	}
+	////////////////////////////////**to do**/////////////////////////////////////////
+	
+	/**
+	 * This case asserts that in position (0,0) facing South, the forward sensor returns 3.
+	 */
+	@Test
+	public void test00robotForward() {
+		controller.setCurrentPosition(0, 0);
+		controller.setCurrentDirection(0, 1);		
+		int distanceToWall = sensor.forward();
+		
+		assertEquals(3, distanceToWall);
+		//facing South, robot can move 3
+	}
+	
+	/**
+	 * This case tests the rotate method to see if the robot correctly rotates right.  
+	 * It takes a current position (0,0) and a current direction East
+	 */
+	@Test
+	public void testRotate() {
+		controller.setCurrentPosition(0, 0);
+		controller.setCurrentDirection(1, 0);
+		
+		robot.rotate(Turn.RIGHT);
+		
+		CardinalDirection dirAfterRotateRight = controller.getCurrentDirection();
+		
+		assertEquals(CardinalDirection.North, dirAfterRotateRight);
+	}
+	
+	/**
+	 * This case tests if the robot moves forward one position at the position (0,0) in 
+	 * current direction North
+	 */
+	@Test
+	public void testMove() {
+		controller.setCurrentPosition(0, 0);
+		controller.setCurrentDirection(0, 1);
+		
+		robot.move(1, true);
+		
+		int[] posAfterMove = controller.getCurrentPosition();
+			
+		int[] testMove = {0 , 1};
+		
+		assertTrue(Arrays.equals(testMove, posAfterMove));
+		
+	}
+	
+	/**
+	 * This case tests that the controller returns the current position.
+	 */
+	@Test
+	public void testGetCurrentPosition() {
+		controller.setCurrentPosition(3, 3);
+		int[] setCurrPos = {3, 3};
+		int[] currPos = controller.getCurrentPosition();
+		assertTrue(Arrays.equals(setCurrPos, currPos));
+	}
+
+	/**
+	 * This case tests if the current position is at the exit
+	 */
+	@Test
+	public void testIsAtExit() {
+		
+		controller.setCurrentPosition(0, 3);
+		
+		
+		assertTrue(robot.isAtExit() == true);
+	}
+	
+	/**
+	 * This case tests if the robot can see the exit in a given direction.
+	 */
+	@Test
+	public void testCanSeeExit() {
+		controller.setCurrentPosition(0, 3);
+		controller.setCurrentDirection(1, 0);
+		
+		boolean canSeeExit= robot.canSeeExit(Direction.BACKWARD);
+		assertEquals(true, canSeeExit);
+	}
+	
+	/**
+	 * This case tests the getBatteryLevel
+	 */
+	@Test
+	public void testGetBatteryLevel() {
+		float i = 1300;
+		robot.setBatteryLevel(i);
+		float battLev = robot.getBatteryLevel();
+		assertEquals(i, battLev, 0);
+	}
+	
+	/**
+	 * This case tests for correct energy levels of full rotation
+	 */
+	@Test
+	public void testGetEnergyForFullRotation() {
+		float energy = robot.getEnergyForFullRotation();
+		assertEquals(12, energy, 0);
+	}
+	
+	/**
+	 * This case tests for correct energy levels of one step forward. 
+	 */
+	@Test
+	public void testGetEnergyForStepForward() {
+		float energy = robot.getEnergyForStepForward();
+		assertEquals(5, energy, 0);
+	}
+	
+	/**
+	 * This case tests if distanceToObstacle returns the correct number of moves until an obstacle
+	 */
+	@Test
+	public void testDistanceToObstacle() {
+		controller.setCurrentPosition(1, 3);
+		controller.setCurrentDirection(1, 0);
+		int distance = robot.distanceToObstacle(Direction.LEFT);
+		assertEquals(0, distance);
+
+	}
+
+	
+	
+}
+

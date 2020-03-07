@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">AMazeByJulianaDajon</string>
+
+    <string name="algorithm">Prim</string>
+    <string name="driver">Manual</string>
+
+    <string-array name="Explore">
+        <item>Prim</item>
+        <item>Eller</item>
+        <item>DFS</item>
+    </string-array>
+
+
+    <string-array name="Robot">
+        <item>Manual</item>
+        <item>Wizard</item>
+        <item>Wall Follower</item>
+        <item>Pledge</item>
+    </string-array>
+
+
+</resources>

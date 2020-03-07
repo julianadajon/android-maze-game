@@ -1,0 +1,383 @@
+package falstad;
+
+import java.awt.Event;
+import java.util.Arrays;
+
+import generation.CardinalDirection;
+import generation.Cells;
+import generation.Distance;
+import generation.MazeConfiguration;
+import falstad.Sensors;
+
+/**
+ * BasicRobot is used by a driver to navigate a maze.  Its responsibilities include
+ * moving and rotating the robot through implementation of sensors and a MazeController.
+ * It has 5 sensors, one for each direction (forward, backward, right, left) and if the robot
+ * is in a room.  It also keeps track of the robot's energy consumption
+ * 
+ * @author julianadajon
+ *
+ */
+public class BasicRobot implements Robot {
+
+	MazeController mazeController;
+	float batteryLevel;
+	Sensors sensor;
+	MazeConfiguration container;
+	int pathLength;
+	Cells cells;
+	Distance distance;
+	boolean hasStopped = false; 
+	
+	//BasicRobot is given a controller through setMaze( MazeController );
+	public BasicRobot() {
+		batteryLevel = 2500;
+		pathLength = 0;
+		
+	}
+	// just for testing
+	public BasicRobot(Sensors sensor, MazeConfiguration container){
+		batteryLevel = 2500;
+		this.sensor = sensor;
+		this.container = container; 
+
+	}
+	
+	@Override
+	public void setMaze(MazeController maze) {
+		System.out.println("set maze in brobot" + mazeController == null);
+		mazeController = maze; 
+	}
+
+	private void initSensors() {
+		System.out.println(mazeController == null);
+		container = mazeController.getMazeConfiguration();
+		sensor = new Sensors(mazeController, container);
+	}
+	
+	public MazeController getMazeController(){
+		if (sensor == null)
+			initSensors();
+		return mazeController; 
+	}
+	
+	public MazeConfiguration getMazeConfiguration(){
+		if (sensor == null)
+			initSensors();
+		
+		return container; 
+	}
+	
+	@Override
+	public void rotate(Turn turn) {
+	
+		//if turn is left
+		if (turn == Turn.LEFT) {
+			if (batteryLevel - 3 >= 0){
+				mazeController.keyDown(Event.LEFT);
+				batteryLevel = batteryLevel - 3; 				
+				
+			}
+		}
+		
+		if (turn == Turn.RIGHT) {
+			if (batteryLevel - 3 >= 0){
+				mazeController.keyDown(Event.RIGHT);
+				batteryLevel = batteryLevel - 3; 
+			}
+		}
+		
+		if (turn == Turn.AROUND) {
+			if (batteryLevel - 6 >= 0){
+				mazeController.keyDown(Event.RIGHT);
+				mazeController.keyDown(Event.RIGHT);
+				batteryLevel = batteryLevel - 6; 
+			}
+		}
+		
+		System.out.println("current battery level: " + batteryLevel);
+	}
+
+
+	
+	@Override
+	public void move(int distance, boolean manual) {
+		// TODO Auto-generated method stub
+		//check that manual is true
+		//check that distance to obstacle (forward direction) is not less than the distance
+
+		
+		if (manual == true){
+			
+			int i = 1;
+			while (hasStopped() == false && batteryLevel >= 5 && i <= distance){
+//				 if (distanceToObstacle(Direction.FORWARD) == 0) {
+//					hasStopped = true; 
+//					break;
+//				 }
+				mazeController.keyDown(Event.UP);
+				batteryLevel = batteryLevel - 5; 
+				i++;
+				pathLength++;
+			}
+		}
+		
+		if (manual == false){
+			
+			int i = 1;
+			while (hasStopped() == false && batteryLevel >= 5 && i <= distance){
+				mazeController.keyDown(Event.UP);
+				batteryLevel = batteryLevel - 5; 
+				i++;
+				pathLength++;
+			}
+		}
+		
+	}
+
+	@Override
+	public boolean hasStopped() {
+		//check battery level
+		if (batteryLevel <= 0){
+			hasStopped = true; 
+		}
+		
+		return hasStopped; 
+	}
+	
+	public int[] getDirectionOfNeighborClosestToExit() {
+		if (sensor == null)
+			initSensors();
+		
+		int[] currPos = mazeController.getCurrentPosition();
+		int[] neighborClosestToExit= container.getNeighborCloserToExit(currPos[0], currPos[1]);
+		
+		int[] direction = {0,0};
+		
+		//4 scenarios. 
+		//check if position in certain direction is valid
+		
+		// if neighbor is north (x, y - 1)
+		//check if position north of currPos is valid
+		if (container.isValidPosition(currPos[0], currPos[1] - 1)){
+			
+			//check if position to north is neighbor closest to exit
+			if ((currPos[0] == neighborClosestToExit[0]) && (currPos[1] - 1 == neighborClosestToExit[1])){
+				
+				//update direction to be north
+				direction[0] = 0; 
+				direction[1] = -1;
+			}
+		}
+		
+		//neighbor is south (x, y + 1)
+		//check if position south of currPos is valid
+		if (container.isValidPosition(currPos[0], currPos[1] + 1)){
+			
+			//check if position to south is neighbor closest to exit
+			if ((currPos[0] == neighborClosestToExit[0]) && (currPos[1] + 1 == neighborClosestToExit[1])){
+				
+				//update direction to be south
+				direction[0] = 0;
+				direction[1] = 1; 
+			}
+		}
+		
+		
+		//neighbor is east (x + 1, y)
+		//check if position east of CurrPos is valid
+		if (container.isValidPosition(currPos[0] + 1, currPos[1])){
+			
+			//check if position to south is neighbor closest to exit
+			if ((currPos[0] + 1 == neighborClosestToExit[0]) && (currPos[1] == neighborClosestToExit[1])){
+				
+				//update direction to be south
+				direction[0] = 1;
+				direction[1] = 0; 
+			}
+		}
+		
+		
+		//neighbor is west (x - 1, y)
+		//check if position West of currPos is valid
+		if (container.isValidPosition(currPos[0] - 1, currPos[1])){
+			
+			//check if position to south is neighbor closest to exit
+			if ((currPos[0] - 1 == neighborClosestToExit[0]) && (currPos[1] == neighborClosestToExit[1])){
+				
+				//update direction to be south
+				direction[0] = -1;
+				direction[1] = 0; 
+			}
+		}
+		
+		return direction;
+	}
+	
+
+	
+
+	
+	@Override
+	public int getPathLength(){
+		return pathLength;
+	}
+	
+	@Override
+	public int[] getCurrentPosition() throws Exception {
+
+		return mazeController.getCurrentPosition();
+	}
+
+
+
+	@Override	
+	public boolean isAtExit() {
+
+		if (sensor == null)
+			initSensors();
+		
+		int[] currPos = mazeController.getCurrentPosition();
+		
+		if (this.container.getDistanceToExit(currPos[0], currPos[1]) == 1){
+			return true;
+			
+		}
+		return false;
+	}
+
+	
+	@Override
+	public boolean canSeeExit(Direction direction) throws UnsupportedOperationException {
+		// initialize sensors if necessary
+		if (sensor == null)
+			initSensors();
+		
+		//check what sensor is needed
+		//check if int value sensor returns is the same as distance to exit;
+		//if ^ is true, then return true;
+		int currSensor = 0;
+		
+		if (direction == Direction.LEFT){
+			currSensor = sensor.left();
+		}
+		if (direction == Direction.RIGHT){
+			currSensor = sensor.right();
+		}
+		if (direction == Direction.FORWARD){
+			currSensor = sensor.forward();
+		}
+		if (direction == Direction.BACKWARD){
+			currSensor = sensor.backward();
+		}
+		
+		boolean infinity = false;
+		
+		if (currSensor == Integer.MAX_VALUE){
+			infinity = true;
+			
+		}
+		updateEnergyForSensors();
+		return infinity;
+		
+		
+
+	}
+
+	@Override
+	public boolean isInsideRoom() throws UnsupportedOperationException {
+		// initialize sensors if necessary
+		if (sensor == null)
+			initSensors();
+		//room sensor may have a different energy cost
+		updateEnergyForSensors();
+		return sensor.inRoom();
+	}
+
+	@Override
+	public boolean hasRoomSensor() {
+		return true;
+	}
+
+	@Override
+	public CardinalDirection getCurrentDirection() {
+		return mazeController.getCurrentDirection();
+	}
+
+	@Override
+	public float getBatteryLevel() {
+		return batteryLevel;
+	}
+
+	@Override
+	public void setBatteryLevel(float level) {
+		batteryLevel = level; 
+	}
+
+	public void updateEnergyForSensors() {
+		batteryLevel = batteryLevel - 1;
+	}
+	
+	@Override
+	public float getEnergyForFullRotation() {
+		return 12;
+	}
+
+	@Override
+	public float getEnergyForStepForward() {
+		return 5;
+	}
+
+
+	@Override
+	public int distanceToObstacle(Direction direction) throws UnsupportedOperationException {
+		// initialize sensors if necessary
+		if (sensor == null)
+			initSensors();
+		
+		int distance = 0;
+		if (direction == Direction.LEFT){
+			distance = sensor.left();
+		}
+		
+		if (direction == Direction.RIGHT){
+			distance = sensor.right();
+		}
+		
+		if (direction == Direction.FORWARD){
+			distance = sensor.forward();
+		}
+		
+		if (direction == Direction.BACKWARD){
+			distance = sensor.backward();
+		}
+		
+		updateEnergyForSensors();
+		return distance;
+	}
+
+	@Override
+	public boolean hasDistanceSensor(Direction direction) {
+		
+		boolean hasSensor = false; 
+		
+		if (direction == Direction.LEFT){
+			hasSensor = true;
+		}
+		
+		if (direction == Direction.RIGHT){
+			hasSensor = true;
+		}
+		
+		if (direction == Direction.FORWARD){
+			hasSensor = true;
+		}
+		
+		if (direction == Direction.BACKWARD){
+			hasSensor = true;
+		}
+		
+		return hasSensor;
+	}
+
+}

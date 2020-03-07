@@ -1,0 +1,14 @@
+package falstad;
+
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
+public class WallFollowerTest {
+
+	@Test
+	public void test() {
+		fail("Not yet implemented");
+	}
+
+}

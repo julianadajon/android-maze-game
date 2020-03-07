@@ -1,0 +1,256 @@
+package generation;
+
+
+import static org.junit.Assert.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+
+
+import org.junit.Test;
+
+import generation.MazeBuilderEller; 
+
+public class MazeBuilderEllerTest {
+
+	
+	
+	@Test
+	public void testPopulateBoard() {
+
+		int width = 4;
+		int height = 4; 
+		
+		int[][] board = new int[width][height];
+		MazeBuilderEller eller = new MazeBuilderEller(true);
+
+		eller.width = width; 
+		eller.height = height; 
+		
+		board = eller.populate(board);
+		
+		int i = 1; 
+		for (int w = 0; w < width; w++){
+			for (int h = 0; h < height; h++){
+				
+				assertEquals(i, board[w][h]);
+				i++;
+			}
+		}
+		
+	}
+	
+	@Test
+	public void testHashMapSetUp() {
+		int width = 4;
+		int height = 4; 
+		
+		int[][] board = new int[width][height];
+		MazeBuilderEller eller = new MazeBuilderEller(true);
+		
+		eller.width = width; 
+		eller.height = height; 
+		
+		HashMap<Integer, ArrayList<int[]>> sets = new HashMap<Integer, ArrayList<int[]>>();
+		eller.populate(board);
+		eller.initializeHashMapWithSingletons(sets, board);
+		
+		for (int i = 0; i <= width * height; i++){
+			assertNotNull(sets.get(1));
+		}
+	}
+	
+	@Test
+	public void testBoardMerge() {
+		
+		int width = 4;
+		int height = 4; 
+		int[][] board = new int[width][height];
+		MazeBuilderEller eller = new MazeBuilderEller(true);
+		eller.width = width; 
+		eller.height = height; 
+		
+		//make 2D array with given set values
+		board[0][0] = 3; 
+		board[0][1] = 3; 
+		board[0][2] = 7; 
+		board[0][3] = 5; 
+		
+		board[1][0] = 3; 
+		board[1][1] = 2; 
+		board[1][2] = 2; 
+		board[1][3] = 2; 
+		
+
+		//merge 2 cells
+		eller.mergeSetsOnBoard(board, 0, 1, 3, 5, eller.height);
+		eller.mergeSetsOnBoard(board, 1, 0, 3, 2, eller.height);
+
+		
+		//check to see if values are correct
+		assertEquals(3, board[0][1]);
+		assertEquals(3, board[0][3]);
+		
+		assertEquals(3, board[1][2]);
+		assertEquals(3, board[1][3]);
+		
+		
+		
+		
+	}
+	@Test
+	public void testHashMapMerge() {
+		int width = 4;
+		int height = 4; 
+		
+		int[][] board = new int[width][height];
+		MazeBuilderEller eller = new MazeBuilderEller(true);
+		
+		eller.width = width; 
+		eller.height = height; 
+		
+		HashMap<Integer, ArrayList<int[]>> sets = new HashMap<Integer, ArrayList<int[]>>();
+		eller.populate(board);
+		eller.initializeHashMapWithSingletons(sets, board);
+		
+		int cell1 = 1; 
+		int cell2 = 2; 
+		
+		eller.mergeSetsInHashMap(sets, cell1, cell2);
+		
+		ArrayList<int[]> cell1val = new ArrayList<int[]>();
+		int[] loc1 = {0,0};
+		int[] loc2 = {0,1};
+		cell1val.add(loc1);
+		cell1val.add(loc2);
+		
+
+		for (int i = 0; i < sets.get(1).size(); i++){
+			assertTrue(Arrays.equals(sets.get(1).get(i), cell1val.get(i)));
+					
+		}
+	}
+
+	@Test
+	public void testHashMapVertConnection(){
+		int width = 4;
+		int height = 4; 
+		
+		int[][] board = new int[width][height];
+		MazeBuilderEller eller = new MazeBuilderEller(true);
+		
+		eller.width = width; 
+		eller.height = height; 
+		
+		HashMap<Integer, ArrayList<int[]>> sets = new HashMap<Integer, ArrayList<int[]>>();
+		eller.populate(board);
+		eller.initializeHashMapWithSingletons(sets, board);
+		
+		int w = 0; 
+		int key = 1;
+		int[] addVert = {0,0};
+		
+		eller.mergeSetsInHashMapVertical(sets, board, w, key, addVert);
+		
+		ArrayList<int[]> cell1val = new ArrayList<int[]>();
+		int[] loc1 = {0,0};
+		int[] loc2 = {1,0};
+		cell1val.add(loc1);
+		cell1val.add(loc2);
+		
+
+		
+		for (int i = 0; i < sets.get(1).size(); i++){
+			assertTrue(Arrays.equals(sets.get(1).get(i), cell1val.get(i)));
+					
+		}
+	}
+	@Test
+	public void testDeleteWallsForLastRow(){
+		int width = 4;
+		int height = 4; 
+		
+		int[][] board = new int[width][height];
+		MazeBuilderEller eller = new MazeBuilderEller(true);
+		
+		eller.width = width; 
+		eller.height = height; 
+		
+		HashMap<Integer, ArrayList<int[]>> sets = new HashMap<Integer, ArrayList<int[]>>();
+		eller.populate(board);
+		eller.initializeHashMapWithSingletons(sets, board);
+		
+		int w = 3; 
+		Cells cells = new Cells(4, 4); 
+		
+		eller.deleteWallsForLastRow(sets, board, w, cells);
+	
+		for (int h = 0; h < height; h++){
+			assertTrue(cells.hasWall(h, w,  CardinalDirection.South) == false);
+		}
+		
+		
+	}
+	@Test
+	public void testWallDeletedInCellsAfterHorizontalMerge(){
+		int width = 4;
+		int height = 4; 
+		
+		int[][] board = new int[width][height];
+		MazeBuilderEller eller = new MazeBuilderEller(true);
+		
+		eller.width = width; 
+		eller.height = height; 
+		
+		HashMap<Integer, ArrayList<int[]>> sets = new HashMap<Integer, ArrayList<int[]>>();
+		eller.populate(board);
+		eller.initializeHashMapWithSingletons(sets, board);
+		
+		int w = 0; 
+		Cells cells = new Cells(4, 4); 
+		
+		eller.deleteWallsForHorizontalConnections(sets, board, w, cells);
+	
+		for (int h = 0; h < height - 1; h++){
+			int cell1 = board[w][h];
+			int cell2 = board[w][h+1];
+			if (cell1 == cell2){
+				assertTrue(cells.hasWall(h, w,  CardinalDirection.South) == false);
+			}
+			
+
+		}
+
+	}
+	@Test
+	public void testWallDeletedInCellsAfterVerticalMerge(){
+		int width = 4;
+		int height = 4; 
+		
+		int[][] board = new int[width][height];
+		MazeBuilderEller eller = new MazeBuilderEller(true);
+		
+		eller.width = width; 
+		eller.height = height; 
+		
+		HashMap<Integer, ArrayList<int[]>> sets = new HashMap<Integer, ArrayList<int[]>>();
+		eller.populate(board);
+		eller.initializeHashMapWithSingletons(sets, board);
+		
+		int w = 0; 
+		Cells cells = new Cells(4, 4); 
+		
+		eller.deleteWallsForHorizontalConnections(sets, board, w, cells);
+		eller.deleteWallsForVerticalConnections(sets, board, w, cells);
+	
+		for (int h = 0; h < height - 1; h++){
+			int cell1 = board[w][h];
+			int cell2 = board[w+1][h];
+			if (cell1 == cell2){
+				assertTrue(cells.hasWall(h, w,  CardinalDirection.South) == false);
+			}
+		}
+
+	}
+}

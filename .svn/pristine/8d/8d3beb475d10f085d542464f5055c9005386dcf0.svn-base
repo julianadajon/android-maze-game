@@ -1,0 +1,1602 @@
+package generation;
+import generation.Stub;
+import generation.Order.Builder;
+
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
+public class MazeFactoryTest {
+	
+	MazeConfiguration mazeConfig = new MazeContainer(); 
+	int skill;
+	Builder builder;
+	Boolean perfect; 
+	Stub myStub;
+	MazeFactory mazeFact;
+	int[] start;
+	Distance distance;
+  
+	
+/////////TEST PRIM, Skill 0, Perfect Maze//////////////////////////
+	@Test
+	public void testWidthPrimPerfect0() {
+		//Skill level 0; width of 4
+		builder = Builder.Prim;
+		skill = 0;
+		perfect = true;
+		
+		mazeFact = new MazeFactory(true);
+		myStub = new Stub(mazeConfig, skill, builder, perfect);
+		mazeFact.order(myStub);
+		mazeFact.waitTillDelivered();
+		
+		int width = myStub.getMazeConfiguration().getWidth(); 
+		assertEquals(4, width);
+		
+	}
+
+	@Test
+	public void testHeightPrimPerfect0() {
+		//skill level 0; width of 4
+		builder = Builder.Prim;
+		skill = 0;
+		perfect = true;
+		
+		mazeFact = new MazeFactory(true);
+		myStub = new Stub(mazeConfig, skill, builder, perfect);
+		mazeFact.order(myStub);
+		mazeFact.waitTillDelivered();
+		
+		
+		int height = myStub.getMazeConfiguration().getHeight(); 
+		assertEquals(4, height);
+		}
+	
+	
+		
+	@Test
+	public void testCellDistancePrimPerfect0() {
+		builder = Builder.Prim;
+		skill = 0;
+		perfect = true;
+		
+		mazeFact = new MazeFactory(true);
+		myStub = new Stub(mazeConfig, skill, builder, perfect);
+		mazeFact.order(myStub);
+		mazeFact.waitTillDelivered();
+	//check that every cell has a distance to exit
+		distance = myStub.getMazeConfiguration().getMazedists();
+		int[][] dist = distance.getDists();
+		int width = myStub.getMazeConfiguration().getWidth(); 
+		int height = myStub.getMazeConfiguration().getHeight(); 
+		
+		for (int w = 0; w < width; w++){
+			for (int h = 0; h < height; h++){
+				assertTrue(dist[w][h] > 0);
+			}
+		}
+	}
+
+	
+	@Test
+	public void testCellPathPrimPerfect0() {
+		builder = Builder.Prim;
+		skill = 0;
+		perfect = true;
+		
+		mazeFact = new MazeFactory(true);
+		myStub = new Stub(mazeConfig, skill, builder, perfect);
+		mazeFact.order(myStub);
+		mazeFact.waitTillDelivered();
+		
+	//check path to exit for every cell
+
+		int width = myStub.getMazeConfiguration().getWidth(); 
+		int height = myStub.getMazeConfiguration().getHeight(); 
+	
+
+		for (int w = 0; w < width; w++){
+			for (int h = 0; h < height; h++){
+				
+				myStub.getMazeConfiguration().setStartingPosition(w, h);
+				int[] current = myStub.getMazeConfiguration().getStartingPosition();
+				
+				while( myStub.getMazeConfiguration().getDistanceToExit(current[0], current[1]) != 1){
+					current = myStub.getMazeConfiguration().getNeighborCloserToExit(current[0], current[1]);
+				}
+
+				assertEquals(1, myStub.getMazeConfiguration().getDistanceToExit(current[0], current[1]));
+			}
+		}
+	}
+
+	@Test
+	public void testOneExitPrimPerfect0() {
+		//tests for one exit only
+		
+		builder = Builder.Prim;
+		skill = 0;
+		perfect = true;
+		
+		mazeFact = new MazeFactory(true);
+		myStub = new Stub(mazeConfig, skill, builder, perfect);
+		mazeFact.order(myStub);
+		mazeFact.waitTillDelivered();
+		
+
+		int d = 0;
+		int width = myStub.getMazeConfiguration().getWidth(); 
+		int height = myStub.getMazeConfiguration().getHeight(); 
+	
+
+		for (int w = 0; w < width; w++){
+			for (int h = 0; h < height; h++){
+				
+				if (myStub.getMazeConfiguration().getDistanceToExit(w, h) == 1){
+					d++;
+				}
+			}
+		}
+		
+		assertEquals(1, d);
+	}
+	
+	
+	
+	
+	/////////TEST PRIM, Skill 3, Perfect Maze//////////////////////////
+	@Test
+	public void testWidthPrimPerfect3() {
+		builder = Builder.Prim;
+		skill = 3;
+		perfect = true;
+		
+		mazeFact = new MazeFactory(true);
+		myStub = new Stub(mazeConfig, skill, builder, perfect);
+		mazeFact.order(myStub);
+		mazeFact.waitTillDelivered();
+		
+		int width = myStub.getMazeConfiguration().getWidth(); 
+		assertEquals(20, width);
+		
+	}
+	
+	@Test
+	public void testHeightPrimPerfect3() {
+	
+		builder = Builder.Prim;
+		skill = 3;
+		perfect = true;
+		
+		mazeFact = new MazeFactory(true);
+		myStub = new Stub(mazeConfig, skill, builder, perfect);
+		mazeFact.order(myStub);
+		mazeFact.waitTillDelivered();
+		
+		
+		int height = myStub.getMazeConfiguration().getHeight(); 
+		assertEquals(15, height);
+		}
+	
+	
+		
+	@Test
+	public void testCellDistancePrimPerfect3() {
+		builder = Builder.Prim;
+		skill = 3;
+		perfect = true;
+		
+		mazeFact = new MazeFactory(true);
+		myStub = new Stub(mazeConfig, skill, builder, perfect);
+		mazeFact.order(myStub);
+		mazeFact.waitTillDelivered();
+	//check that every cell has a distance to exit
+		distance = myStub.getMazeConfiguration().getMazedists();
+		int[][] dist = distance.getDists();
+		int width = myStub.getMazeConfiguration().getWidth(); 
+		int height = myStub.getMazeConfiguration().getHeight(); 
+		
+		for (int w = 0; w < width; w++){
+			for (int h = 0; h < height; h++){
+				assertTrue(dist[w][h] > 0);
+			}
+		}
+	}
+	
+	
+	@Test
+	public void testCellPathPrimPerfect3() {
+		builder = Builder.Prim;
+		skill = 3;
+		perfect = true;
+		
+		mazeFact = new MazeFactory(true);
+		myStub = new Stub(mazeConfig, skill, builder, perfect);
+		mazeFact.order(myStub);
+		mazeFact.waitTillDelivered();
+		
+	//check path to exit for every cell
+
+		int width = myStub.getMazeConfiguration().getWidth(); 
+		int height = myStub.getMazeConfiguration().getHeight(); 
+	
+	
+		for (int w = 0; w < width; w++){
+			for (int h = 0; h < height; h++){
+				
+				myStub.getMazeConfiguration().setStartingPosition(w, h);
+				int[] current = myStub.getMazeConfiguration().getStartingPosition();
+				
+				while( myStub.getMazeConfiguration().getDistanceToExit(current[0], current[1]) != 1){
+					current = myStub.getMazeConfiguration().getNeighborCloserToExit(current[0], current[1]);
+				}
+	
+				assertEquals(1, myStub.getMazeConfiguration().getDistanceToExit(current[0], current[1]));
+			}
+		}
+	}
+	
+	@Test
+	public void testOneExitPrimPerfect3() {
+		builder = Builder.Prim;
+		skill = 3;
+		perfect = true;
+		
+		mazeFact = new MazeFactory(true);
+		myStub = new Stub(mazeConfig, skill, builder, perfect);
+		mazeFact.order(myStub);
+		mazeFact.waitTillDelivered();
+		
+	int d = 0;
+	int width = myStub.getMazeConfiguration().getWidth(); 
+	int height = myStub.getMazeConfiguration().getHeight(); 
+
+
+	for (int w = 0; w < width; w++){
+		for (int h = 0; h < height; h++){
+			
+			if (myStub.getMazeConfiguration().getDistanceToExit(w, h) == 1){
+				d++;
+			}
+		}
+	}
+	
+	assertEquals(1, d);
+	}		
+
+	/////////TEST PRIM, Skill 7, Perfect Maze//////////////////////////
+	@Test
+	public void testWidthPrimPerfect7() {
+		builder = Builder.Prim;
+		skill = 7;
+		perfect = true;
+		
+		mazeFact = new MazeFactory(true);
+		myStub = new Stub(mazeConfig, skill, builder, perfect);
+		mazeFact.order(myStub);
+		mazeFact.waitTillDelivered();
+		
+		int width = myStub.getMazeConfiguration().getWidth(); 
+		assertEquals(35, width);
+		
+	}
+	
+	@Test
+	public void testHeightPrimPerfect7() {
+	
+		builder = Builder.Prim;
+		skill = 7;
+		perfect = true;
+		
+		mazeFact = new MazeFactory(true);
+		myStub = new Stub(mazeConfig, skill, builder, perfect);
+		mazeFact.order(myStub);
+		mazeFact.waitTillDelivered();
+		
+		
+		int height = myStub.getMazeConfiguration().getHeight(); 
+		assertEquals(35, height);
+		}
+	
+	
+		
+	@Test
+	public void testCellDistancePrimPerfect7() {
+		builder = Builder.Prim;
+		skill = 7;
+		perfect = true;
+		
+		mazeFact = new MazeFactory(true);
+		myStub = new Stub(mazeConfig, skill, builder, perfect);
+		mazeFact.order(myStub);
+		mazeFact.waitTillDelivered();
+		
+	//check that every cell has a distance to exit
+		distance = myStub.getMazeConfiguration().getMazedists();
+		int[][] dist = distance.getDists();
+		int width = myStub.getMazeConfiguration().getWidth(); 
+		int height = myStub.getMazeConfiguration().getHeight(); 
+		
+		for (int w = 0; w < width; w++){
+			for (int h = 0; h < height; h++){
+				assertTrue(dist[w][h] > 0);
+			}
+		}
+	}
+	
+	
+	@Test
+	public void testCellPathPrimPerfect7() {
+		builder = Builder.Prim;
+		skill = 7;
+		perfect = true;
+		
+		mazeFact = new MazeFactory(true);
+		myStub = new Stub(mazeConfig, skill, builder, perfect);
+		mazeFact.order(myStub);
+		mazeFact.waitTillDelivered();
+		
+	//check path to exit for every cell
+		int width = myStub.getMazeConfiguration().getWidth(); 
+		int height = myStub.getMazeConfiguration().getHeight(); 
+	
+	
+		for (int w = 0; w < width; w++){
+			for (int h = 0; h < height; h++){
+				
+				myStub.getMazeConfiguration().setStartingPosition(w, h);
+				int[] current = myStub.getMazeConfiguration().getStartingPosition();
+				
+				while( myStub.getMazeConfiguration().getDistanceToExit(current[0], current[1]) != 1){
+					current = myStub.getMazeConfiguration().getNeighborCloserToExit(current[0], current[1]);
+				}
+	
+				assertEquals(1, myStub.getMazeConfiguration().getDistanceToExit(current[0], current[1]));
+			}
+		}
+	}
+	
+	@Test
+	public void testOneExitPrimPerfect7() {
+		builder = Builder.Prim;
+		skill = 7;
+		perfect = true;
+		
+		mazeFact = new MazeFactory(true);
+		myStub = new Stub(mazeConfig, skill, builder, perfect);
+		mazeFact.order(myStub);
+		mazeFact.waitTillDelivered();
+		
+	int d = 0;
+	int width = myStub.getMazeConfiguration().getWidth(); 
+	int height = myStub.getMazeConfiguration().getHeight(); 
+
+
+	for (int w = 0; w < width; w++){
+		for (int h = 0; h < height; h++){
+			
+			if (myStub.getMazeConfiguration().getDistanceToExit(w, h) == 1){
+				d++;
+			}
+		}
+	}
+	
+	assertEquals(1, d);
+	}		
+
+	/////////TEST PRIM, Skill 4, Non-perfect Maze//////////////////////////
+	@Test
+	public void testWidthPrimNonPerfect4() {
+		builder = Builder.Prim;
+		skill = 4;
+		perfect = false;
+		
+		mazeFact = new MazeFactory(true);
+		myStub = new Stub(mazeConfig, skill, builder, perfect);
+		mazeFact.order(myStub);
+		mazeFact.waitTillDelivered();
+		
+		int width = myStub.getMazeConfiguration().getWidth(); 
+		assertEquals(25, width);
+		
+	}
+	
+	@Test
+	public void testHeightPrimNonPerfect4() {
+	
+		builder = Builder.Prim;
+		skill = 4;
+		perfect = false;
+		
+		mazeFact = new MazeFactory(true);
+		myStub = new Stub(mazeConfig, skill, builder, perfect);
+		mazeFact.order(myStub);
+		mazeFact.waitTillDelivered();
+		
+		
+		int height = myStub.getMazeConfiguration().getHeight(); 
+		assertEquals(20, height);
+		}
+	
+	
+		
+	@Test
+	public void testCellDistancePrimNonPerfect4() {
+		builder = Builder.Prim;
+		skill = 4;
+		perfect = false;
+		
+		mazeFact = new MazeFactory(true);
+		myStub = new Stub(mazeConfig, skill, builder, perfect);
+		mazeFact.order(myStub);
+		mazeFact.waitTillDelivered();
+	//check that every cell has a distance to exit
+		distance = myStub.getMazeConfiguration().getMazedists();
+		int[][] dist = distance.getDists();
+		int width = myStub.getMazeConfiguration().getWidth(); 
+		int height = myStub.getMazeConfiguration().getHeight(); 
+		
+		for (int w = 0; w < width; w++){
+			for (int h = 0; h < height; h++){
+				assertTrue(dist[w][h] > 0);
+			}
+		}
+	}
+	
+	
+	@Test
+	public void testCellPathPrimNonPerfect4() {
+		builder = Builder.Prim;
+		skill = 4;
+		perfect = false;
+		
+		mazeFact = new MazeFactory(true);
+		myStub = new Stub(mazeConfig, skill, builder, perfect);
+		mazeFact.order(myStub);
+		mazeFact.waitTillDelivered();
+		
+	//check path to exit for every cell
+		int width = myStub.getMazeConfiguration().getWidth(); 
+		int height = myStub.getMazeConfiguration().getHeight(); 
+	
+	
+		for (int w = 0; w < width; w++){
+			for (int h = 0; h < height; h++){
+				
+				myStub.getMazeConfiguration().setStartingPosition(w, h);
+				int[] current = myStub.getMazeConfiguration().getStartingPosition();
+				
+				while( myStub.getMazeConfiguration().getDistanceToExit(current[0], current[1]) != 1){
+					current = myStub.getMazeConfiguration().getNeighborCloserToExit(current[0], current[1]);
+				}
+	
+				assertEquals(1, myStub.getMazeConfiguration().getDistanceToExit(current[0], current[1]));
+			}
+		}
+	}
+	
+	@Test
+	public void testOneExitPrimNonPerfect4() {
+		builder = Builder.Prim;
+		skill = 4;
+		perfect = false;
+		
+		mazeFact = new MazeFactory(true);
+		myStub = new Stub(mazeConfig, skill, builder, perfect);
+		mazeFact.order(myStub);
+		mazeFact.waitTillDelivered();
+		
+	int d = 0;
+	int width = myStub.getMazeConfiguration().getWidth(); 
+	int height = myStub.getMazeConfiguration().getHeight(); 
+
+
+	for (int w = 0; w < width; w++){
+		for (int h = 0; h < height; h++){
+			
+			if (myStub.getMazeConfiguration().getDistanceToExit(w, h) == 1){
+				d++;
+			}
+		}
+	}
+	
+	assertEquals(1, d);
+	}		
+
+	/////////TEST PRIM, Skill 1, Non-perfect Maze//////////////////////////
+	@Test
+	public void testWidthPrimNonPerfect1() {
+		builder = Builder.Prim;
+		skill = 1;
+		perfect = false;
+		
+		mazeFact = new MazeFactory(true);
+		myStub = new Stub(mazeConfig, skill, builder, perfect);
+		mazeFact.order(myStub);
+		mazeFact.waitTillDelivered();
+		
+		int width = myStub.getMazeConfiguration().getWidth(); 
+		assertEquals(12, width);
+		
+	}
+	
+	@Test
+	public void testHeightPrimNonPerfect1() {
+	
+		builder = Builder.Prim;
+		skill = 1;
+		perfect = false;
+		
+		mazeFact = new MazeFactory(true);
+		myStub = new Stub(mazeConfig, skill, builder, perfect);
+		mazeFact.order(myStub);
+		mazeFact.waitTillDelivered();
+		
+		
+		int height = myStub.getMazeConfiguration().getHeight(); 
+		assertEquals(12, height);
+		}
+	
+	
+		
+	@Test
+	public void testCellDistanceNonPrimPerfect1() {
+		builder = Builder.Prim;
+		skill = 1;
+		perfect = false;
+		
+		mazeFact = new MazeFactory(true);
+		myStub = new Stub(mazeConfig, skill, builder, perfect);
+		mazeFact.order(myStub);
+		mazeFact.waitTillDelivered();
+	//check that every cell has a distance to exit
+		distance = myStub.getMazeConfiguration().getMazedists();
+		int[][] dist = distance.getDists();
+		int width = myStub.getMazeConfiguration().getWidth(); 
+		int height = myStub.getMazeConfiguration().getHeight(); 
+		
+		for (int w = 0; w < width; w++){
+			for (int h = 0; h < height; h++){
+				assertTrue(dist[w][h] > 0);
+			}
+		}
+	}
+	
+	
+	@Test
+	public void testCellPathNonPrimPerfect1() {
+		builder = Builder.Prim;
+		skill = 1;
+		perfect = false;
+		
+		mazeFact = new MazeFactory(true);
+		myStub = new Stub(mazeConfig, skill, builder, perfect);
+		mazeFact.order(myStub);
+		mazeFact.waitTillDelivered();
+		
+	//check path to exit for every cell
+
+		int width = myStub.getMazeConfiguration().getWidth(); 
+		int height = myStub.getMazeConfiguration().getHeight(); 
+	
+	
+		for (int w = 0; w < width; w++){
+			for (int h = 0; h < height; h++){
+				
+				myStub.getMazeConfiguration().setStartingPosition(w, h);
+				int[] current = myStub.getMazeConfiguration().getStartingPosition();
+				
+				while( myStub.getMazeConfiguration().getDistanceToExit(current[0], current[1]) != 1){
+					current = myStub.getMazeConfiguration().getNeighborCloserToExit(current[0], current[1]);
+				}
+	
+				assertEquals(1, myStub.getMazeConfiguration().getDistanceToExit(current[0], current[1]));
+			}
+		}
+	}
+	
+	@Test
+	public void testOneExitPrimNonPerfect1() {
+		builder = Builder.Prim;
+		skill = 1;
+		perfect = false;
+		
+		mazeFact = new MazeFactory(true);
+		myStub = new Stub(mazeConfig, skill, builder, perfect);
+		mazeFact.order(myStub);
+		mazeFact.waitTillDelivered();
+		
+	int d = 0;
+	int width = myStub.getMazeConfiguration().getWidth(); 
+	int height = myStub.getMazeConfiguration().getHeight(); 
+
+
+	for (int w = 0; w < width; w++){
+		for (int h = 0; h < height; h++){
+			
+			if (myStub.getMazeConfiguration().getDistanceToExit(w, h) == 1){
+				d++;
+			}
+		}
+	}
+	
+	assertEquals(1, d);
+	}		
+	
+	/////////TEST PRIM, Skill 10, Non-perfect Maze//////////////////////////
+	@Test
+	public void testWidthPrimNonPerfect10() {
+		builder = Builder.Prim;
+		skill = 10;
+		perfect = false;
+		
+		mazeFact = new MazeFactory(true);
+		myStub = new Stub(mazeConfig, skill, builder, perfect);
+		mazeFact.order(myStub);
+		mazeFact.waitTillDelivered();
+		
+		int width = myStub.getMazeConfiguration().getWidth(); 
+		assertEquals(70, width);
+		
+	}
+	
+	@Test
+	public void testHeightPrimNonPerfect10() {
+	
+		builder = Builder.Prim;
+		skill = 10;
+		perfect = false;
+		
+		mazeFact = new MazeFactory(true);
+		myStub = new Stub(mazeConfig, skill, builder, perfect);
+		mazeFact.order(myStub);
+		mazeFact.waitTillDelivered();
+		
+		
+		int height = myStub.getMazeConfiguration().getHeight(); 
+		assertEquals(70, height);
+		}
+	
+	
+		
+	@Test
+	public void testCellDistancePrimNonPerfect10() {
+		builder = Builder.Prim;
+		skill = 10;
+		perfect = false;
+		
+		mazeFact = new MazeFactory(true);
+		myStub = new Stub(mazeConfig, skill, builder, perfect);
+		mazeFact.order(myStub);
+		mazeFact.waitTillDelivered();
+	//check that every cell has a distance to exit
+		distance = myStub.getMazeConfiguration().getMazedists();
+		int[][] dist = distance.getDists();
+		int width = myStub.getMazeConfiguration().getWidth(); 
+		int height = myStub.getMazeConfiguration().getHeight(); 
+		
+		for (int w = 0; w < width; w++){
+			for (int h = 0; h < height; h++){
+				assertTrue(dist[w][h] > 0);
+			}
+		}
+	}
+	
+	
+	@Test
+	public void testCellPathPrimNonPerfect10() {
+		builder = Builder.Prim;
+		skill = 10;
+		perfect = false;
+		
+		mazeFact = new MazeFactory(true);
+		myStub = new Stub(mazeConfig, skill, builder, perfect);
+		mazeFact.order(myStub);
+		mazeFact.waitTillDelivered();
+		
+	//check path to exit for every cell
+
+		int width = myStub.getMazeConfiguration().getWidth(); 
+		int height = myStub.getMazeConfiguration().getHeight(); 
+	
+	
+		for (int w = 0; w < width; w++){
+			for (int h = 0; h < height; h++){
+				
+				myStub.getMazeConfiguration().setStartingPosition(w, h);
+				int[] current = myStub.getMazeConfiguration().getStartingPosition();
+				
+				while( myStub.getMazeConfiguration().getDistanceToExit(current[0], current[1]) != 1){
+					current = myStub.getMazeConfiguration().getNeighborCloserToExit(current[0], current[1]);
+				}
+	
+				assertEquals(1, myStub.getMazeConfiguration().getDistanceToExit(current[0], current[1]));
+			}
+		}
+	}
+	
+	@Test
+	public void testOneExitPrimNonPerfect10() {
+		builder = Builder.Prim;
+		skill = 4;
+		perfect = false;
+		
+		mazeFact = new MazeFactory(true);
+		myStub = new Stub(mazeConfig, skill, builder, perfect);
+		mazeFact.order(myStub);
+		mazeFact.waitTillDelivered();
+		
+	int d = 0;
+	int width = myStub.getMazeConfiguration().getWidth(); 
+	int height = myStub.getMazeConfiguration().getHeight(); 
+
+
+	for (int w = 0; w < width; w++){
+		for (int h = 0; h < height; h++){
+			
+			if (myStub.getMazeConfiguration().getDistanceToExit(w, h) == 1){
+				d++;
+			}
+		}
+	}
+	
+	assertEquals(1, d);
+	}		
+	
+	/////////TEST DFS, Skill 2, Perfect Maze//////////////////////////
+	@Test
+	public void testWidthDFSPerfect2() {
+	
+		builder = Builder.DFS;
+		skill = 2;
+		perfect = true;
+		
+		mazeFact = new MazeFactory(true);
+		myStub = new Stub(mazeConfig, skill, builder, perfect);
+		mazeFact.order(myStub);
+		mazeFact.waitTillDelivered();
+		
+		int width = myStub.getMazeConfiguration().getWidth(); 
+		assertEquals(15, width);
+		
+	}
+	
+	@Test
+	public void testHeightDFSPerfect2() {
+	
+		builder = Builder.DFS;
+		skill = 2;
+		perfect = true;
+		
+		mazeFact = new MazeFactory(true);
+		myStub = new Stub(mazeConfig, skill, builder, perfect);
+		mazeFact.order(myStub);
+		mazeFact.waitTillDelivered();
+		
+		
+		int height = myStub.getMazeConfiguration().getHeight(); 
+		assertEquals(15, height);
+		}
+	
+	
+		
+	@Test
+	public void testCellDistanceDFSPerfect2() {
+		builder = Builder.DFS;
+		skill = 2;
+		perfect = true;
+		
+		mazeFact = new MazeFactory(true);
+		myStub = new Stub(mazeConfig, skill, builder, perfect);
+		mazeFact.order(myStub);
+		mazeFact.waitTillDelivered();
+	//check that every cell has a distance to exit
+		distance = myStub.getMazeConfiguration().getMazedists();
+		int[][] dist = distance.getDists();
+		int width = myStub.getMazeConfiguration().getWidth(); 
+		int height = myStub.getMazeConfiguration().getHeight(); 
+		
+		for (int w = 0; w < width; w++){
+			for (int h = 0; h < height; h++){
+				assertTrue(dist[w][h] > 0);
+			}
+		}
+	}
+	
+	
+	@Test
+	public void testCellPathDFSPerfect2() {
+		builder = Builder.DFS;
+		skill = 2;
+		perfect = true;
+		
+		mazeFact = new MazeFactory(true);
+		myStub = new Stub(mazeConfig, skill, builder, perfect);
+		mazeFact.order(myStub);
+		mazeFact.waitTillDelivered();
+		
+	//check path to exit for every cell
+	
+		int width = myStub.getMazeConfiguration().getWidth(); 
+		int height = myStub.getMazeConfiguration().getHeight(); 
+	
+	
+		for (int w = 0; w < width; w++){
+			for (int h = 0; h < height; h++){
+				
+				myStub.getMazeConfiguration().setStartingPosition(w, h);
+				int[] current = myStub.getMazeConfiguration().getStartingPosition();
+				
+				while( myStub.getMazeConfiguration().getDistanceToExit(current[0], current[1]) != 1){
+					current = myStub.getMazeConfiguration().getNeighborCloserToExit(current[0], current[1]);
+				}
+	
+				assertEquals(1, myStub.getMazeConfiguration().getDistanceToExit(current[0], current[1]));
+			}
+		}
+	}
+	
+	@Test
+	public void testOneExitDFSPerfect2() {
+		builder = Builder.DFS;
+		skill = 2;
+		perfect = true;
+		
+		mazeFact = new MazeFactory(true);
+		myStub = new Stub(mazeConfig, skill, builder, perfect);
+		mazeFact.order(myStub);
+		mazeFact.waitTillDelivered();
+		
+	int d = 0;
+	int width = myStub.getMazeConfiguration().getWidth(); 
+	int height = myStub.getMazeConfiguration().getHeight(); 
+
+
+	for (int w = 0; w < width; w++){
+		for (int h = 0; h < height; h++){
+			
+			if (myStub.getMazeConfiguration().getDistanceToExit(w, h) == 1){
+				d++;
+			}
+		}
+	}
+	
+	assertEquals(1, d);
+	}		
+
+	/////////TEST DFS, Skill 5, Perfect Maze//////////////////////////
+	@Test
+	public void testWidthDFSPerfect5() {
+	
+		builder = Builder.DFS;
+		skill = 5;
+		perfect = true;
+		
+		mazeFact = new MazeFactory(true);
+		myStub = new Stub(mazeConfig, skill, builder, perfect);
+		mazeFact.order(myStub);
+		mazeFact.waitTillDelivered();
+		
+		int width = myStub.getMazeConfiguration().getWidth(); 
+		assertEquals(25, width);
+		
+	}
+	
+	@Test
+	public void testHeightDFSPerfect5() {
+	
+		builder = Builder.DFS;
+		skill = 5;
+		perfect = true;
+		
+		mazeFact = new MazeFactory(true);
+		myStub = new Stub(mazeConfig, skill, builder, perfect);
+		mazeFact.order(myStub);
+		mazeFact.waitTillDelivered();
+		
+		
+		int height = myStub.getMazeConfiguration().getHeight(); 
+		assertEquals(25, height);
+		}
+	
+	
+		
+	@Test
+	public void testCellDistanceDFSPerfect5() {
+		builder = Builder.DFS;
+		skill = 5;
+		perfect = true;
+		
+		mazeFact = new MazeFactory(true);
+		myStub = new Stub(mazeConfig, skill, builder, perfect);
+		mazeFact.order(myStub);
+		mazeFact.waitTillDelivered();
+	//check that every cell has a distance to exit
+		distance = myStub.getMazeConfiguration().getMazedists();
+		int[][] dist = distance.getDists();
+		int width = myStub.getMazeConfiguration().getWidth(); 
+		int height = myStub.getMazeConfiguration().getHeight(); 
+		
+		for (int w = 0; w < width; w++){
+			for (int h = 0; h < height; h++){
+				assertTrue(dist[w][h] > 0);
+			}
+		}
+	}
+	
+	
+	@Test
+	public void testCellPathDFSPerfect5() {
+		builder = Builder.DFS;
+		skill = 5;
+		perfect = true;
+		
+		mazeFact = new MazeFactory(true);
+		myStub = new Stub(mazeConfig, skill, builder, perfect);
+		mazeFact.order(myStub);
+		mazeFact.waitTillDelivered();
+		
+	//check path to exit for every cell
+	
+		int width = myStub.getMazeConfiguration().getWidth(); 
+		int height = myStub.getMazeConfiguration().getHeight(); 
+	
+	
+		for (int w = 0; w < width; w++){
+			for (int h = 0; h < height; h++){
+				
+				myStub.getMazeConfiguration().setStartingPosition(w, h);
+				int[] current = myStub.getMazeConfiguration().getStartingPosition();
+				
+				while( myStub.getMazeConfiguration().getDistanceToExit(current[0], current[1]) != 1){
+					current = myStub.getMazeConfiguration().getNeighborCloserToExit(current[0], current[1]);
+				}
+	
+				assertEquals(1, myStub.getMazeConfiguration().getDistanceToExit(current[0], current[1]));
+			}
+		}
+	}
+	
+	
+	@Test
+	public void testOneExitDFSPerfect5() {
+		builder = Builder.DFS;
+		skill = 5;
+		perfect = true;
+		
+		mazeFact = new MazeFactory(true);
+		myStub = new Stub(mazeConfig, skill, builder, perfect);
+		mazeFact.order(myStub);
+		mazeFact.waitTillDelivered();
+		
+	int d = 0;
+	int width = myStub.getMazeConfiguration().getWidth(); 
+	int height = myStub.getMazeConfiguration().getHeight(); 
+
+
+	for (int w = 0; w < width; w++){
+		for (int h = 0; h < height; h++){
+			
+			if (myStub.getMazeConfiguration().getDistanceToExit(w, h) == 1){
+				d++;
+			}
+		}
+	}
+	
+	assertEquals(1, d);
+	}		
+	
+	
+	/////////TEST DFS, Skill 3, NonPerfect Maze//////////////////////////
+	@Test
+	public void testWidthDFSNonPerfect3() {
+	
+		builder = Builder.DFS;
+		skill = 2;
+		perfect = false;
+		
+		mazeFact = new MazeFactory(true);
+		myStub = new Stub(mazeConfig, skill, builder, perfect);
+		mazeFact.order(myStub);
+		mazeFact.waitTillDelivered();
+		
+		int width = myStub.getMazeConfiguration().getWidth(); 
+		assertEquals(15, width);
+		
+	}
+	
+	@Test
+	public void testHeightDFSNonPerfect3() {
+	
+		builder = Builder.DFS;
+		skill = 2;
+		perfect = false;
+		
+		mazeFact = new MazeFactory(true);
+		myStub = new Stub(mazeConfig, skill, builder, perfect);
+		mazeFact.order(myStub);
+		mazeFact.waitTillDelivered();
+		
+		
+		int height = myStub.getMazeConfiguration().getHeight(); 
+		assertEquals(15, height);
+		}
+	
+	
+		
+	@Test
+	public void testCellDistanceDFSNonPerfect3() {
+		builder = Builder.DFS;
+		skill = 3;
+		perfect = false;
+		
+		mazeFact = new MazeFactory(true);
+		myStub = new Stub(mazeConfig, skill, builder, perfect);
+		mazeFact.order(myStub);
+		mazeFact.waitTillDelivered();
+	//check that every cell has a distance to exit
+		distance = myStub.getMazeConfiguration().getMazedists();
+		int[][] dist = distance.getDists();
+		int width = myStub.getMazeConfiguration().getWidth(); 
+		int height = myStub.getMazeConfiguration().getHeight(); 
+		
+		for (int w = 0; w < width; w++){
+			for (int h = 0; h < height; h++){
+				assertTrue(dist[w][h] > 0);
+			}
+		}
+	}
+	
+	
+	@Test
+	public void testCellPathDFSNonPerfect3() {
+		builder = Builder.DFS;
+		skill = 3;
+		perfect = false;
+		
+		mazeFact = new MazeFactory(true);
+		myStub = new Stub(mazeConfig, skill, builder, perfect);
+		mazeFact.order(myStub);
+		mazeFact.waitTillDelivered();
+		
+	//check path to exit for every cell
+	
+		int width = myStub.getMazeConfiguration().getWidth(); 
+		int height = myStub.getMazeConfiguration().getHeight(); 
+	
+	
+		for (int w = 0; w < width; w++){
+			for (int h = 0; h < height; h++){
+				
+				myStub.getMazeConfiguration().setStartingPosition(w, h);
+				int[] current = myStub.getMazeConfiguration().getStartingPosition();
+				
+				while( myStub.getMazeConfiguration().getDistanceToExit(current[0], current[1]) != 1){
+					current = myStub.getMazeConfiguration().getNeighborCloserToExit(current[0], current[1]);
+				}
+	
+				assertEquals(1, myStub.getMazeConfiguration().getDistanceToExit(current[0], current[1]));
+			}
+		}
+	}
+	
+	@Test
+	public void testOneExitDFSNonPerfect3() {
+		builder = Builder.DFS;
+		skill = 3;
+		perfect = false;
+		
+		mazeFact = new MazeFactory(true);
+		myStub = new Stub(mazeConfig, skill, builder, perfect);
+		mazeFact.order(myStub);
+		mazeFact.waitTillDelivered();
+		
+	int d = 0;
+	int width = myStub.getMazeConfiguration().getWidth(); 
+	int height = myStub.getMazeConfiguration().getHeight(); 
+
+
+	for (int w = 0; w < width; w++){
+		for (int h = 0; h < height; h++){
+			
+			if (myStub.getMazeConfiguration().getDistanceToExit(w, h) == 1){
+				d++;
+			}
+		}
+	}
+	
+	assertEquals(1, d);
+	}		
+	
+		/////////TEST ELLER, Skill 0, Perfect Maze//////////////////////////
+		@Test
+		public void testWidthEllerPerfect0() {
+		
+			builder = Builder.Eller;
+			skill = 0;
+			perfect = true;
+			
+			mazeFact = new MazeFactory(true);
+			myStub = new Stub(mazeConfig, skill, builder, perfect);
+			mazeFact.order(myStub);
+			mazeFact.waitTillDelivered();
+
+			
+			int width = myStub.getMazeConfiguration().getWidth(); 
+
+			assertEquals(4, width);
+			
+		}
+		
+		@Test
+		public void testHeightEllerPerfect0() {
+		
+			builder = Builder.Eller;
+			skill = 0;
+			perfect = true;
+			
+			mazeFact = new MazeFactory(true);
+			myStub = new Stub(mazeConfig, skill, builder, perfect);
+			mazeFact.order(myStub);
+			mazeFact.waitTillDelivered();
+			
+			
+			int height = myStub.getMazeConfiguration().getHeight(); 
+			assertEquals(4, height);
+			}
+		
+		
+			
+		@Test
+		public void testCellDistanceEllerPerfect0() {
+			builder = Builder.Eller;
+			skill = 0;
+			perfect = true;
+			
+			mazeFact = new MazeFactory(true);
+			myStub = new Stub(mazeConfig, skill, builder, perfect);
+			mazeFact.order(myStub);
+			mazeFact.waitTillDelivered();
+		//check that every cell has a distance to exit
+			distance = myStub.getMazeConfiguration().getMazedists();
+			int[][] dist = distance.getDists();
+			int width = myStub.getMazeConfiguration().getWidth(); 
+			int height = myStub.getMazeConfiguration().getHeight(); 
+			
+			for (int w = 0; w < width; w++){
+				for (int h = 0; h < height; h++){
+					assertTrue(dist[w][h] > 0);
+				}
+			}
+		}
+		
+		
+		@Test
+		public void testCellPathEllerPerfect0() {
+			builder = Builder.Eller;
+			skill = 0;
+			perfect = true;
+			
+			mazeFact = new MazeFactory(true);
+			myStub = new Stub(mazeConfig, skill, builder, perfect);
+			mazeFact.order(myStub);
+			mazeFact.waitTillDelivered();
+			
+		//check path to exit for every cell
+		
+			int width = myStub.getMazeConfiguration().getWidth(); 
+			int height = myStub.getMazeConfiguration().getHeight(); 
+		
+		
+			for (int w = 0; w < width; w++){
+				for (int h = 0; h < height; h++){
+					
+					myStub.getMazeConfiguration().setStartingPosition(w, h);
+					int[] current = myStub.getMazeConfiguration().getStartingPosition();
+					
+					while( myStub.getMazeConfiguration().getDistanceToExit(current[0], current[1]) != 1){
+						current = myStub.getMazeConfiguration().getNeighborCloserToExit(current[0], current[1]);
+					}
+		
+					assertEquals(1, myStub.getMazeConfiguration().getDistanceToExit(current[0], current[1]));
+				}
+			}
+		}
+		
+		
+		@Test
+		public void testOneExitEllerPerfect0() {
+			builder = Builder.Eller;
+			skill = 0;
+			perfect = true;
+			
+			mazeFact = new MazeFactory(true);
+			myStub = new Stub(mazeConfig, skill, builder, perfect);
+			mazeFact.order(myStub);
+			mazeFact.waitTillDelivered();
+			
+		int d = 0;
+		int width = myStub.getMazeConfiguration().getWidth(); 
+		int height = myStub.getMazeConfiguration().getHeight(); 
+
+
+		for (int w = 0; w < width; w++){
+			for (int h = 0; h < height; h++){
+				
+				if (myStub.getMazeConfiguration().getDistanceToExit(w, h) == 1){
+					d++;
+				}
+			}
+		}
+		
+		assertEquals(1, d);
+		}		
+	
+		/////////TEST ELLER, Skill 2, Perfect Maze//////////////////////////
+		@Test
+		public void testWidthEllerPerfect2() {
+		
+			builder = Builder.Eller;
+			skill = 2; 
+			perfect = true;
+			
+			mazeFact = new MazeFactory(true);
+			myStub = new Stub(mazeConfig, skill, builder, perfect);
+			mazeFact.order(myStub);
+			mazeFact.waitTillDelivered();
+			
+			int width = myStub.getMazeConfiguration().getWidth(); 
+			assertEquals(15, width);
+			
+		}
+		
+		@Test
+		public void testHeightEllerPerfect2() {
+		
+			builder = Builder.Eller;
+			skill = 2;
+			perfect = true;
+			
+			mazeFact = new MazeFactory(true);
+			myStub = new Stub(mazeConfig, skill, builder, perfect);
+			mazeFact.order(myStub);
+			mazeFact.waitTillDelivered();
+			
+			
+			int height = myStub.getMazeConfiguration().getHeight(); 
+			assertEquals(15, height);
+			}
+		
+		
+			
+		@Test
+		public void testCellDistanceEllerPerfect2() {
+			builder = Builder.Eller;
+			skill = 2;
+			perfect = true;
+			
+			mazeFact = new MazeFactory(true);
+			myStub = new Stub(mazeConfig, skill, builder, perfect);
+			mazeFact.order(myStub);
+			mazeFact.waitTillDelivered();
+		//check that every cell has a distance to exit
+			distance = myStub.getMazeConfiguration().getMazedists();
+			int[][] dist = distance.getDists();
+			int width = myStub.getMazeConfiguration().getWidth(); 
+			int height = myStub.getMazeConfiguration().getHeight(); 
+			
+			for (int w = 0; w < width; w++){
+				for (int h = 0; h < height; h++){
+					assertTrue(dist[w][h] > 0);
+				}
+			}
+		}
+		
+		
+		@Test
+		public void testCellPathEllerPerfect2() {
+			builder = Builder.Eller;
+			skill = 2;
+			perfect = true;
+			
+			mazeFact = new MazeFactory(true);
+			myStub = new Stub(mazeConfig, skill, builder, perfect);
+			mazeFact.order(myStub);
+			mazeFact.waitTillDelivered();
+			
+		//check path to exit for every cell
+		
+			int width = myStub.getMazeConfiguration().getWidth(); 
+			int height = myStub.getMazeConfiguration().getHeight(); 
+		
+		
+			for (int w = 0; w < width; w++){
+				for (int h = 0; h < height; h++){
+					
+					myStub.getMazeConfiguration().setStartingPosition(w, h);
+					int[] current = myStub.getMazeConfiguration().getStartingPosition();
+					
+					while( myStub.getMazeConfiguration().getDistanceToExit(current[0], current[1]) != 1){
+						current = myStub.getMazeConfiguration().getNeighborCloserToExit(current[0], current[1]);
+					}
+		
+					assertEquals(1, myStub.getMazeConfiguration().getDistanceToExit(current[0], current[1]));
+				}
+			}
+		}
+		
+		@Test
+		public void testOneExitEllerPerfect2() {
+			builder = Builder.Eller;
+			skill = 2;
+			perfect = true;
+			
+			mazeFact = new MazeFactory(true);
+			myStub = new Stub(mazeConfig, skill, builder, perfect);
+			mazeFact.order(myStub);
+			mazeFact.waitTillDelivered();
+			
+		int d = 0;
+		int width = myStub.getMazeConfiguration().getWidth(); 
+		int height = myStub.getMazeConfiguration().getHeight(); 
+
+
+		for (int w = 0; w < width; w++){
+			for (int h = 0; h < height; h++){
+				
+				if (myStub.getMazeConfiguration().getDistanceToExit(w, h) == 1){
+					d++;
+				}
+			}
+		}
+		
+		assertEquals(1, d);
+		}		
+	
+		
+		/////////TEST ELLER, Skill 1, NonPerfect Maze//////////////////////////
+		@Test
+		public void testWidthEllerNonPerfect1() {
+		
+			builder = Builder.Eller;
+			skill = 1;
+			perfect = false;
+			
+			mazeFact = new MazeFactory(true);
+			myStub = new Stub(mazeConfig, skill, builder, perfect);
+			mazeFact.order(myStub);
+			mazeFact.waitTillDelivered();
+			
+			int width = myStub.getMazeConfiguration().getWidth(); 
+			assertEquals(12, width);
+			
+		}
+		
+		@Test
+		public void testHeightEllerNonPerfect1() {
+		
+			builder = Builder.Eller;
+			skill = 1;
+			perfect = false;
+			
+			mazeFact = new MazeFactory(true);
+			myStub = new Stub(mazeConfig, skill, builder, perfect);
+			mazeFact.order(myStub);
+			mazeFact.waitTillDelivered();
+			
+			
+			int height = myStub.getMazeConfiguration().getHeight(); 
+			assertEquals(12, height);
+			}
+		
+		
+			
+		@Test
+		public void testCellDistanceEllerNonPerfect1() {
+			builder = Builder.Eller;
+			skill = 1;
+			perfect = false;
+			
+			mazeFact = new MazeFactory(true);
+			myStub = new Stub(mazeConfig, skill, builder, perfect);
+			mazeFact.order(myStub);
+			mazeFact.waitTillDelivered();
+		//check that every cell has a distance to exit
+			distance = myStub.getMazeConfiguration().getMazedists();
+			int[][] dist = distance.getDists();
+			int width = myStub.getMazeConfiguration().getWidth(); 
+			int height = myStub.getMazeConfiguration().getHeight(); 
+			
+			for (int w = 0; w < width; w++){
+				for (int h = 0; h < height; h++){
+					assertTrue(dist[w][h] > 0);
+				}
+			}
+		}
+		
+		
+		@Test
+		public void testCellPathEllerNonPerfect1() {
+			builder = Builder.Eller;
+			skill = 1;
+			perfect = false;
+			
+			mazeFact = new MazeFactory(true);
+			myStub = new Stub(mazeConfig, skill, builder, perfect);
+			mazeFact.order(myStub);
+			mazeFact.waitTillDelivered();
+			
+		//check path to exit for every cell
+		
+			int width = myStub.getMazeConfiguration().getWidth(); 
+			int height = myStub.getMazeConfiguration().getHeight(); 
+		
+		
+			for (int w = 0; w < width; w++){
+				for (int h = 0; h < height; h++){
+					
+					myStub.getMazeConfiguration().setStartingPosition(w, h);
+					int[] current = myStub.getMazeConfiguration().getStartingPosition();
+					
+					while( myStub.getMazeConfiguration().getDistanceToExit(current[0], current[1]) != 1){
+						current = myStub.getMazeConfiguration().getNeighborCloserToExit(current[0], current[1]);
+					}
+		
+					assertEquals(1, myStub.getMazeConfiguration().getDistanceToExit(current[0], current[1]));
+				}
+			}
+		}
+		
+		@Test
+		public void testOneExitEllerNonPerfect1() {
+			builder = Builder.Eller;
+			skill = 1;
+			perfect = false;
+			
+			mazeFact = new MazeFactory(true);
+			myStub = new Stub(mazeConfig, skill, builder, perfect);
+			mazeFact.order(myStub);
+			mazeFact.waitTillDelivered();
+			
+		int d = 0;
+		int width = myStub.getMazeConfiguration().getWidth(); 
+		int height = myStub.getMazeConfiguration().getHeight(); 
+
+
+		for (int w = 0; w < width; w++){
+			for (int h = 0; h < height; h++){
+				
+				if (myStub.getMazeConfiguration().getDistanceToExit(w, h) == 1){
+					d++;
+				}
+			}
+		}
+		
+		assertEquals(1, d);
+		}		
+	
+		
+		/////////TEST ELLER, Skill 3, NonPerfect Maze//////////////////////////
+		@Test
+		public void testWidthEllerNonPerfect6() {
+		
+			builder = Builder.Eller;
+			skill = 6;
+			perfect = false;
+			
+			mazeFact = new MazeFactory(true);
+			myStub = new Stub(mazeConfig, skill, builder, perfect);
+			mazeFact.order(myStub);
+			mazeFact.waitTillDelivered();
+			
+			int width = myStub.getMazeConfiguration().getWidth(); 
+			assertEquals(35, width);
+			
+		}
+		
+		@Test
+		public void testHeightEllerNonPerfect6() {
+		
+			builder = Builder.Eller;
+			skill = 6;
+			perfect = false;
+			
+			mazeFact = new MazeFactory(true);
+			myStub = new Stub(mazeConfig, skill, builder, perfect);
+			mazeFact.order(myStub);
+			mazeFact.waitTillDelivered();
+			
+			
+			int height = myStub.getMazeConfiguration().getHeight(); 
+			assertEquals(25, height);
+			}
+		
+		
+			
+		@Test
+		public void testCellDistanceEllerNonPerfect6() {
+			builder = Builder.Eller;
+			skill = 6;
+			perfect = false;
+			
+			mazeFact = new MazeFactory(true);
+			myStub = new Stub(mazeConfig, skill, builder, perfect);
+			mazeFact.order(myStub);
+			mazeFact.waitTillDelivered();
+		//check that every cell has a distance to exit
+			distance = myStub.getMazeConfiguration().getMazedists();
+			int[][] dist = distance.getDists();
+			int width = myStub.getMazeConfiguration().getWidth(); 
+			int height = myStub.getMazeConfiguration().getHeight(); 
+			
+			for (int w = 0; w < width; w++){
+				for (int h = 0; h < height; h++){
+					assertTrue(dist[w][h] > 0);
+				}
+			}
+		}
+		
+		
+		@Test
+		public void testCellPathEllerNonPerfect6() {
+			builder = Builder.Eller;
+			skill = 6;
+			perfect = false;
+			
+			mazeFact = new MazeFactory(true);
+			myStub = new Stub(mazeConfig, skill, builder, perfect);
+			mazeFact.order(myStub);
+			mazeFact.waitTillDelivered();
+			
+		//check path to exit for every cell
+		
+			int width = myStub.getMazeConfiguration().getWidth(); 
+			int height = myStub.getMazeConfiguration().getHeight(); 
+		
+		
+			for (int w = 0; w < width; w++){
+				for (int h = 0; h < height; h++){
+					
+					myStub.getMazeConfiguration().setStartingPosition(w, h);
+					int[] current = myStub.getMazeConfiguration().getStartingPosition();
+					
+					while( myStub.getMazeConfiguration().getDistanceToExit(current[0], current[1]) != 1){
+						current = myStub.getMazeConfiguration().getNeighborCloserToExit(current[0], current[1]);
+					}
+		
+					assertEquals(1, myStub.getMazeConfiguration().getDistanceToExit(current[0], current[1]));
+				}
+			}
+		}
+		
+		@Test
+		public void testOneExitEllerNonPerfect3() {
+			builder = Builder.Eller;
+			skill = 3;
+			perfect = false;
+			
+			mazeFact = new MazeFactory(true);
+			myStub = new Stub(mazeConfig, skill, builder, perfect);
+			mazeFact.order(myStub);
+			mazeFact.waitTillDelivered();
+			
+		int d = 0;
+		int width = myStub.getMazeConfiguration().getWidth(); 
+		int height = myStub.getMazeConfiguration().getHeight(); 
+
+
+		for (int w = 0; w < width; w++){
+			for (int h = 0; h < height; h++){
+				
+				if (myStub.getMazeConfiguration().getDistanceToExit(w, h) == 1){
+					d++;
+				}
+			}
+		}
+		
+		assertEquals(1, d);
+		}		
+	
+		
+}

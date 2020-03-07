@@ -1,0 +1,463 @@
+package falstad;
+
+import static org.junit.Assert.*;
+
+import java.util.Arrays;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import generation.CardinalDirection;
+import generation.Cells;
+import generation.Distance;
+import generation.MazeConfiguration;
+import generation.MazeContainer;
+import generation.MazeFactory;
+import generation.Order;
+import generation.Stub;
+import generation.Order.Builder;
+
+public class BasicRobotTest {
+	
+	Builder builder;
+	int skill;
+	Boolean perfect;
+
+	MazeControllerForTests controller;
+	Robot robot;
+
+	MazeConfiguration mazeConfig;
+	Stub myStub;
+	Sensors sensor;
+	
+	MazeFactory mazeFact;
+	
+	Cells cells;
+	Distance distance;
+	
+	@Before
+	public void SetUp() {
+		builder = Builder.Prim;
+		skill = 0;
+		perfect = true;
+		
+		controller = new MazeControllerForTests(builder);
+		robot = new BasicRobot(sensor);
+		robot.setMaze(controller);
+		
+		mazeConfig = controller.getMazeConfiguration(); 
+		cells = new Cells(4, 4);
+		distance = new Distance(4, 4);
+		mazeConfig.setMazecells(cells);
+		mazeConfig.setMazedists(distance);
+		
+		myStub = new Stub(mazeConfig, skill, builder, perfect);
+		
+
+		mazeFact = new MazeFactory(true);
+		mazeFact.order(myStub);
+		mazeFact.waitTillDelivered();
+		sensor = new Sensors(controller, myStub.getMazeConfiguration());
+		
+
+	}
+	
+	@After
+	public void tearDown() throws Exception {
+	}
+	
+	
+	////////LEFT SENSORS/////////
+	
+//	@Test
+//	public void testSensorLeft00() {
+//		
+//		
+//		int[] start = myStub.getMazeConfiguration().getStartingPosition();
+//		System.out.println("sensor left 00: " + Arrays.toString(start));
+//		
+//		controller.setCurrentPosition(0, 0);
+//		
+//		controller.deliver(myStub.getMazeConfiguration());
+//		
+//		Sensors sensor = new Sensors(controller, myStub.getMazeConfiguration());
+//		
+//		int distanceToWall = sensor.left();
+//		
+//		assertEquals(Integer.MAX_VALUE, distanceToWall);
+//	}	
+//		
+//
+//	
+//	@Test
+//	public void testSensorLeft10() {
+//		
+//		controller.setCurrentPosition(1, 0);
+//				
+//		Sensors sensor = new Sensors(controller, myStub.getMazeConfiguration());
+//		
+//		int distanceToWall = sensor.left();
+//		
+//		assertEquals(0, distanceToWall);
+//
+//	}
+//	
+//	@Test
+//	public void testSensorLeft20() {
+//		
+//		controller.setCurrentPosition(2, 0);
+//				
+//		Sensors sensor = new Sensors(controller, myStub.getMazeConfiguration());
+//		
+//		int distanceToWall = sensor.left();
+//		
+//		assertEquals(0, distanceToWall);
+//
+//	}
+//	
+//	@Test
+//	public void testSensorLeft30() {
+//		
+//		controller.setCurrentPosition(3, 0);
+//				
+//		Sensors sensor = new Sensors(controller, myStub.getMazeConfiguration());
+//		
+//		int distanceToWall = sensor.left();
+//		
+//		assertEquals(0, distanceToWall);
+//
+//	}
+	
+	@Test
+	public void testSensorLeft03() {
+		
+	
+		controller.setCurrentPosition(0, 3);
+				
+		Sensors sensor = new Sensors(controller, myStub.getMazeConfiguration());
+		
+		int distanceToWall = sensor.left();
+		
+		assertEquals(0, distanceToWall);
+
+	}
+	
+	@Test
+	public void testSensorLeft13() {
+		
+		controller.setCurrentPosition(1, 3);
+				
+		Sensors sensor = new Sensors(controller, myStub.getMazeConfiguration());
+		
+		int distanceToWall = sensor.left();
+		
+		assertEquals(0, distanceToWall);
+
+	}
+	
+	@Test
+	public void testSensorLeft23() {
+		
+		controller.setCurrentPosition(2, 3);
+				
+		Sensors sensor = new Sensors(controller, myStub.getMazeConfiguration());
+		
+		int distanceToWall = sensor.left();
+		
+		assertEquals(0, distanceToWall);
+
+	}
+	
+	@Test
+	public void testSensorLeft33() {
+		
+		controller.setCurrentPosition(3, 3);
+				
+		Sensors sensor = new Sensors(controller, myStub.getMazeConfiguration());
+		
+		int distanceToWall = sensor.left();
+		
+		assertEquals(0, distanceToWall);
+
+	}
+	
+	////////RIGHT SENSORS/////////
+	
+	
+//	@Test
+//	public void testSensorRight03() {
+//		controller.setCurrentPosition(0, 3);
+//		
+//		
+//		Sensors sensor = new Sensors(controller, myStub.getMazeConfiguration());
+//		
+//		int distanceToWall = sensor.right();
+//		
+//		assertEquals(1, distanceToWall);
+//	}
+//	
+//	@Test
+//	public void testSensorRight13() {
+//		controller.setCurrentPosition(1, 3);
+//		
+//		
+//		Sensors sensor = new Sensors(controller, myStub.getMazeConfiguration());
+//		
+//		int distanceToWall = sensor.right();
+//		
+//		assertEquals(0, distanceToWall);
+//	}
+//	
+//	@Test
+//	public void testSensorRight23() {
+//		controller.setCurrentPosition(2, 3);
+//		
+//		
+//		Sensors sensor = new Sensors(controller, myStub.getMazeConfiguration());
+//		
+//		int distanceToWall = sensor.right();
+//		
+//		assertEquals(0, distanceToWall);
+//	}
+//	
+//	@Test
+//	public void testSensorRight33() {
+//		controller.setCurrentPosition(3, 3);
+//		
+//		
+//		Sensors sensor = new Sensors(controller, myStub.getMazeConfiguration());
+//		
+//		int distanceToWall = sensor.right();
+//		
+//		assertEquals(0, distanceToWall);
+//	}
+//	
+	@Test
+	public void testSensorRight00() {
+		
+		int[] start = myStub.getMazeConfiguration().getStartingPosition();
+		System.out.println("sensor left 00: " + Arrays.toString(start));
+
+		controller.setCurrentPosition(0, 0);
+		
+		
+		Sensors sensor = new Sensors(controller, myStub.getMazeConfiguration());
+		
+		int distanceToWall = sensor.right();
+	
+		assertEquals(0, distanceToWall);
+	}
+	
+	@Test
+	public void testSensorRight10() {
+		controller.setCurrentPosition(1, 0);
+		
+		
+		Sensors sensor = new Sensors(controller, myStub.getMazeConfiguration());
+		
+		int distanceToWall = sensor.right();
+		
+		assertEquals(0, distanceToWall);
+	}
+	
+	@Test
+	public void testSensorRight20() {
+		controller.setCurrentPosition(2, 0);
+		
+		
+		Sensors sensor = new Sensors(controller, myStub.getMazeConfiguration());
+		
+		int distanceToWall = sensor.right();
+		
+		assertEquals(0, distanceToWall);
+	}
+	
+	@Test
+	public void testSensorRight30() {
+		controller.setCurrentPosition(3, 0);
+		
+		
+		Sensors sensor = new Sensors(controller, myStub.getMazeConfiguration());
+		
+		int distanceToWall = sensor.right();
+		
+		assertEquals(0, distanceToWall);
+	}
+	
+	
+	////////FORWARD SENSORS/////////
+	
+	@Test
+	public void testSensorForward30() {
+		controller.setCurrentPosition(3, 0);
+				
+		controller.deliver(myStub.getMazeConfiguration());
+		
+		Sensors sensor = new Sensors(controller, myStub.getMazeConfiguration());
+		
+		int distanceToWall = sensor.forward();
+		
+		assertEquals(0, distanceToWall);
+	}
+	
+	@Test
+	public void testSensorForward31() {
+		controller.setCurrentPosition(3, 1);
+				
+		controller.deliver(myStub.getMazeConfiguration());
+		
+		Sensors sensor = new Sensors(controller, myStub.getMazeConfiguration());
+		
+		int distanceToWall = sensor.forward();
+		
+		assertEquals(0, distanceToWall);
+	}
+	
+	@Test
+	public void testSensorForward32() {
+		controller.setCurrentPosition(3, 2);
+				
+		controller.deliver(myStub.getMazeConfiguration());
+		
+		Sensors sensor = new Sensors(controller, myStub.getMazeConfiguration());
+		
+		int distanceToWall = sensor.forward();
+		
+		assertEquals(0, distanceToWall);
+	}
+	
+	@Test
+	public void testSensorForward33() {
+		controller.setCurrentPosition(3, 3);
+				
+		controller.deliver(myStub.getMazeConfiguration());
+		
+		Sensors sensor = new Sensors(controller, myStub.getMazeConfiguration());
+		
+		int distanceToWall = sensor.forward();
+		
+		assertEquals(0, distanceToWall);
+	}
+	
+	
+	////////BACKWARD SENSORS/////////
+	
+	
+	@Test
+	public void testSensorBackward00() {
+		controller.setCurrentPosition(0, 0);
+		
+		controller.deliver(myStub.getMazeConfiguration());
+		
+		Sensors sensor = new Sensors(controller, myStub.getMazeConfiguration());
+		
+		int distanceToWall = sensor.backward();
+		
+		assertEquals(0, distanceToWall);
+	}	
+	
+	@Test
+	public void testSensorBackward01() {
+		controller.setCurrentPosition(0, 1);
+			
+		Sensors sensor = new Sensors(controller, myStub.getMazeConfiguration());
+		
+		int distanceToWall = sensor.backward();
+		
+		assertEquals(0, distanceToWall);
+	}
+	
+	@Test
+	public void testSensorBackward02() {
+		controller.setCurrentPosition(0, 2);
+				
+		Sensors sensor = new Sensors(controller, myStub.getMazeConfiguration());
+		
+		int distanceToWall = sensor.backward();
+		
+		assertEquals(0, distanceToWall);
+	}
+	
+	@Test
+	public void testSensorBackward03() {
+		controller.setCurrentPosition(0, 3);
+				
+		Sensors sensor = new Sensors(controller, myStub.getMazeConfiguration());
+		
+		int distanceToWall = sensor.backward();
+		
+		assertEquals(0, distanceToWall);
+	}
+	
+	
+	
+	@Test
+	public void testSensorRoom() {
+		fail("Not yet implemented");
+	}
+	
+	@Test
+	public void testRotate() {
+		fail("Not yet implemented");
+	}
+	
+	@Test
+	public void testMove() {
+		fail("Not yet implemented");
+	}
+	
+	@Test
+	public void testGetCurrentPosition() {
+		fail("Not yet implemented");
+	}
+	
+	@Test
+	public void testSetMaze() {
+		fail("Not yet implemented");
+	}
+	
+	@Test
+	public void testIsAtExit() {
+		fail("Not yet implemented");
+	}
+	
+	@Test
+	public void testCanSeeExit() {
+		fail("Not yet implemented");
+	}
+	
+	@Test
+	public void testGetBatteryLevel() {
+		fail("Not yet implemented");
+	}
+	
+	@Test
+	public void testSetBatteryLevel() {
+		fail("Not yet implemented");
+	}
+	
+	@Test
+	public void testGetEnergyForFullRotation() {
+		fail("Not yet implemented");
+	}
+	
+	@Test
+	public void testGetEnergyForStepForward() {
+		fail("Not yet implemented");
+	}
+	
+	@Test
+	public void testHasStopped() {
+		fail("Not yet implemented");
+	}
+	
+	@Test
+	public void testDistanceToObstacle() {
+		fail("Not yet implemented");
+	}
+
+	
+	
+}
+

@@ -1,0 +1,86 @@
+package falstad;
+
+import static org.junit.Assert.*;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import falstad.Constants.StateGUI;
+import generation.Cells;
+import generation.Distance;
+import generation.MazeConfiguration;
+import generation.MazeFactory;
+import generation.Stub;
+import generation.Order.Builder;
+
+public class WallFollowerTest {
+
+	Builder builder;
+	int skill;
+	Boolean perfect;
+
+	MazeControllerForTests controller;
+	BasicRobot basicRobot;
+	RobotDriver wallFoll;
+
+	MazeConfiguration mazeConfig;
+	Stub myStub;
+	Sensors sensor;
+	
+	MazeFactory mazeFact;
+	
+	Cells cells;
+	Distance distance;
+	
+
+	
+	@Before
+	public void SetUp() {
+		builder = Builder.Prim;
+		skill = 0;
+		perfect = true;
+		
+		controller = new MazeControllerForTests(builder);
+		controller.setState(StateGUI.STATE_PLAY);
+		controller.setCurrentDirection(1, 0);
+
+		
+		mazeConfig = controller.getMazeConfiguration(); 
+//		mazeConfig = new MazeContainer(); 
+		cells = new Cells(4, 4);
+		distance = new Distance(4, 4);
+		mazeConfig.setMazecells(cells);
+		mazeConfig.setMazedists(distance);
+		
+		myStub = new Stub(mazeConfig, skill, builder, perfect);
+//		for maze configuration always use myStub.getMazeConfiguration();
+
+		mazeFact = new MazeFactory(true);
+		mazeFact.order(myStub);
+		mazeFact.waitTillDelivered();
+		
+		sensor = new Sensors(controller, myStub.getMazeConfiguration());
+		basicRobot = new BasicRobot(sensor, myStub.getMazeConfiguration());
+		
+		wallFoll = new WallFollower(); 
+		basicRobot.setMaze(controller);
+		wallFoll.setRobot(basicRobot);
+	}
+	
+	@After
+	public void tearDown() throws Exception {
+	}
+	/**
+	 * Tests if drive2Exit takes the robot to the end of the maze using the wall follower algorithm.
+	 * @throws Exception
+	 */
+
+		@Test
+public void testWallFollSolve() throws Exception {
+
+		wallFoll.drive2Exit();
+		assertEquals(true, basicRobot.isAtExit());
+}
+
+}

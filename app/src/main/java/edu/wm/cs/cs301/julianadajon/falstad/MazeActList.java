@@ -1,0 +1,122 @@
+//package edu.wm.cs.cs301.julianadajon.falstad;
+//
+//import java.awt.Button;
+//import java.awt.Container;
+//import java.awt.event.ActionEvent;
+//import java.awt.event.ActionListener;
+//
+//import javax.swing.JComboBox;
+//import generation.Order;
+///**
+// * This class handles which driver, builder, and skill level should be set by user's inputs.
+// * It uses combo boxes and a button to generate the maze with certain specifications.
+// * It collaborates with the maze application and the controller to produce the right settings.
+// * @author julianadajon
+// *
+// */
+//public class MazeActList implements ActionListener{
+//
+//
+//	MazeApplication application;
+//	MazeController controller;
+//
+//	JComboBox chooseBuilder;
+//	JComboBox chooseDriver;
+//	JComboBox chooseSkillLevel;
+//	SimpleKeyListener kl;
+//	Button button;
+//	Container parent;
+//
+//
+//	public MazeActList( MazeApplication application,
+//			MazeController controller, Container parent
+//			){
+//		this.application = application;
+//		this.controller = controller;
+////		this.kl = kl;
+//		this.parent = parent;
+//	}
+//
+//	public MazeActList( MazeApplication application, JComboBox<String> chooseBuilder,
+//			JComboBox<String> chooseDriver, JComboBox<String> chooseSkillLevel, Button button){
+//		this.application = application;
+//		this.chooseBuilder = chooseBuilder;
+//		this.chooseDriver = chooseDriver;
+//		this.chooseSkillLevel = chooseSkillLevel;
+//		this.button = button;
+//	}
+//
+//	/**
+//	 * This method takes specified skill level, builder, and driver from
+//	 * the combo boxes and button initialized in the maze application.
+//	 * It passes the information to the controller.
+//	 */
+//	@Override
+//	public void actionPerformed(ActionEvent e) {
+//		// TODO Auto-generated method stub
+//
+//
+//		//Set Builders
+//		String builder = (String) application.chooseBuilder.getSelectedItem();
+//
+//		if ( builder == "Prim"){
+//			controller.updateBuilder(Order.Builder.Prim);
+//		}
+//
+//		if ( builder == "Eller"){
+//			controller.updateBuilder(Order.Builder.Eller);
+//		}
+//
+//		if ( builder == "DFS"){
+//			controller.updateBuilder(Order.Builder.DFS);
+//		}
+//
+//
+//		//Set Driver
+//		String driver = (String) application.chooseDriver.getSelectedItem();
+//
+//		if ( driver == "Manual Driver") {
+//			System.out.println("Manual Driver");
+//
+//			RobotDriver d = new ManualDriver();
+//			controller.updateDriver(d);
+////			kl.setDriver(d);
+//
+//
+////			application.setFocusable(true);
+//		}
+//
+//		if ( driver == "Wizard") {
+//			System.out.println("act list wizard controller null: " + (controller == null));
+//			RobotDriver d = new Wizard();
+//			controller.updateDriver(d);
+//		}
+//
+//		if ( driver == "Wall Follower") {
+//			RobotDriver d = new WallFollower();
+//			controller.updateDriver(d);
+//		}
+//
+//		if ( driver == "Pledge") {
+//			RobotDriver d = new Pledge();
+//			controller.updateDriver(d);
+//		}
+//
+//
+//		//Set Skill
+//		String skill = (String) application.chooseSkillLevel.getSelectedItem();
+//		int s = Integer.parseInt(skill);
+//		controller.switchToGeneratingScreen(s + 48);
+//
+//		parent.remove(application.chooseBuilder);
+//		parent.remove(application.chooseSkillLevel);
+//		parent.remove(application.chooseDriver);
+//		parent.remove(application.b);
+//
+//
+//
+//		parent.repaint();
+//
+//	}
+//
+//}

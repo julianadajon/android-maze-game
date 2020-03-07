@@ -1,0 +1,613 @@
+package falstad;
+
+import java.util.Arrays;
+
+import generation.CardinalDirection;
+import generation.MazeConfiguration;
+
+public class Sensors {
+	
+	MazeController controller; 
+	MazeConfiguration container;
+	
+	public Sensors(){
+		controller = new MazeController();
+		container = controller.getMazeConfiguration();
+	}
+	
+	public Sensors(MazeController mazeController){
+		controller = mazeController;
+		container = controller.getMazeConfiguration();
+	}
+	
+	public Sensors(MazeController mazeController, MazeConfiguration mazeContainer){
+		controller = mazeController;
+		container = mazeContainer;
+		
+	}
+	//originally left
+//	public int left(){
+//		//get current Cardinal direction
+//		//get current position
+//		
+//		//figure out what robot's "left" is
+//		//if current direction is North, "left" is to the West
+//		//if current direction is West, "left" is to the South
+//		//if current direction is South, "left" is to the East
+//		//if current direction is East, "left" is to the North
+//		
+//		//initialize a counter
+//		//while there isn't a wall, 
+//			//update current position
+//			//update counter
+//		//if there is a wall, return counter
+//		
+//		//direction robot is facing
+//		CardinalDirection currDir = controller.getCurrentDirection();
+//		int[] currPos = controller.getCurrentPosition();
+//				
+//		CardinalDirection left = CardinalDirection.North;
+//		
+//		if (currDir == CardinalDirection.North){
+//			left = CardinalDirection.West; 
+//		}
+//		if (currDir == CardinalDirection.West){
+//			left = CardinalDirection.South; 
+//		}
+//		if (currDir == CardinalDirection.South){
+//			left = CardinalDirection.East; 
+//		}
+//		if (currDir == CardinalDirection.East){
+//			left = CardinalDirection.North; 
+//		}
+//
+//		System.out.println(" ");
+//		System.out.println("Test current position for sensor.left() " + Arrays.toString(currPos));
+//		System.out.println(" ");
+//		
+//		int moves = 0;
+////		assert(this.container == null) : "container in sensors method is null";
+//		while (container.isValidPosition(currPos[0], currPos[1]) == true && 
+//				container.hasWall(currPos[0], currPos[1], left) == false) {
+//			
+//			System.out.println(" ");
+//			System.out.println("current position for left sensor: " + Arrays.toString(currPos));
+//			System.out.println("current direction for left sensor: " + currDir.toString());
+//
+//
+//			//update currPos
+//			if (currDir == CardinalDirection.North) {
+//				currPos[0] = currPos[0] - 1; 
+//			}
+//			
+//			if (currDir == CardinalDirection.South) {
+//				currPos[0] = currPos[0] + 1; 
+//			}
+//			
+//			if (currDir == CardinalDirection.East) {
+//				currPos[1] = currPos[1] + 1; 
+//			}
+//			
+//			if (currDir == CardinalDirection.West) {
+//				currPos[1] = currPos[1] - 1; 
+//			}
+//			
+//			//update counter
+//			moves++;
+//			System.out.println("Move number: " + moves);
+//			System.out.println(" ");
+//		}
+//		
+//		return moves;
+//	}
+//	//originally right
+//	public int right(){
+//		
+//		CardinalDirection currDir = controller.getCurrentDirection();
+//		int[] currPos = controller.getCurrentPosition();
+//		
+//		CardinalDirection right = CardinalDirection.North;
+//		
+//		if (currDir == CardinalDirection.North){
+//			right = CardinalDirection.East; 
+//		}
+//		if (currDir == CardinalDirection.West){
+//			right = CardinalDirection.North; 
+//		}
+//		if (currDir == CardinalDirection.South){
+//			right = CardinalDirection.West; 
+//		}
+//		if (currDir == CardinalDirection.East){
+//			right = CardinalDirection.South; 
+//		}
+//
+//		System.out.println(" ");
+//		System.out.println("Test current position for sensor.right() " + Arrays.toString(currPos));
+//		System.out.println(" ");
+//		
+////		container.getStartingPosition() != currPos &&
+////		container.getDistanceToExit(currPos[0], currPos[1]) != 0
+//		int moves = 0;
+//		while (container.isValidPosition(currPos[0], currPos[1]) == true &&
+//				container.hasWall(currPos[0], currPos[1], right) == false){
+//
+//			System.out.println(" ");
+//			System.out.println("current position for right sensor: " + Arrays.toString(currPos));
+//			System.out.println("current direction of robot: " + currDir.toString());
+//			System.out.println(" direction of right sensor: " + right.toString());
+//			System.out.println("current position has wall in this direction" + container.hasWall(currPos[0], currPos[1], right));
+//		
+//
+//			//update currPos
+//			if (currDir == CardinalDirection.North) {
+//				currPos[0] = currPos[0] + 1; 
+//			}
+//			
+//			if (currDir == CardinalDirection.South) {
+//				currPos[0] = currPos[0] - 1; 
+//			}
+//			
+//			if (currDir == CardinalDirection.East) {
+//				currPos[1] = currPos[1] - 1; 
+//			}
+//			
+//			if (currDir == CardinalDirection.West) {
+//				currPos[1] = currPos[1] + 1; 
+//			}
+//			
+//			//update counter
+//			moves++;
+//			System.out.println("Move number: " + moves);
+//			System.out.println(" ");
+//		}
+//		
+//
+//		return moves;
+//		
+//	}
+//	//originally forward
+//	public int forward(){
+//		CardinalDirection currDir = controller.getCurrentDirection();
+//		int[] currPos = controller.getCurrentPosition();
+//		
+//		CardinalDirection forward = CardinalDirection.North;
+//		
+//		if (currDir == CardinalDirection.North){
+//			forward = CardinalDirection.North; 
+//		}
+//		if (currDir == CardinalDirection.West){
+//			forward = CardinalDirection.West; 
+//		}
+//		if (currDir == CardinalDirection.South){
+//			forward = CardinalDirection.South; 
+//		}
+//		if (currDir == CardinalDirection.East){
+//			forward = CardinalDirection.East; 
+//		}
+//
+//		System.out.println(" ");
+//		System.out.println("Test current position for sensor.forward() " + Arrays.toString(currPos));
+//		System.out.println(" ");
+//		
+//		int moves = 0;
+//		while (container.isValidPosition(currPos[0], currPos[1]) == true 
+//				&& container.hasWall(currPos[0], currPos[1], forward) == false){
+//			
+//			System.out.println(" ");
+//			System.out.println("current position for forward sensor: " + Arrays.toString(currPos));
+//			System.out.println("current direction for forward sensor: " + currDir.toString());
+//		
+//
+//			//update currPos
+//			if (currDir == CardinalDirection.North) {
+//				currPos[1] = currPos[1] + 1; 
+//			}
+//			
+//			if (currDir == CardinalDirection.South) {
+//				currPos[1] = currPos[1] - 1; 
+//			}
+//			
+//			if (currDir == CardinalDirection.East) {
+//				currPos[0] = currPos[0] + 1; 
+//			}
+//			
+//			if (currDir == CardinalDirection.West) {
+//				currPos[0] = currPos[0] - 1; 
+//			}
+//			
+//			//update counter
+//			moves++;
+//			System.out.println("Move number: " + moves);
+//			System.out.println(" ");
+//			
+//		}
+//		return moves;
+//	}
+//	//originally backward
+//	public int backward(){
+//		CardinalDirection currDir = controller.getCurrentDirection();
+//		int[] currPos = controller.getCurrentPosition();
+//		
+//		CardinalDirection backward = CardinalDirection.North;
+//		
+//		if (currDir == CardinalDirection.North){
+//			backward = CardinalDirection.South; 
+//		}
+//		if (currDir == CardinalDirection.West){
+//			backward = CardinalDirection.East; 
+//		}
+//		if (currDir == CardinalDirection.South){
+//			backward = CardinalDirection.North; 
+//		}
+//		if (currDir == CardinalDirection.East){
+//			backward = CardinalDirection.West; 
+//		}
+//		System.out.println(" ");
+//		System.out.println("Test current position for sensor.backward() " + Arrays.toString(currPos));
+//		System.out.println(" ");
+//		
+//		
+//		int moves = 0;
+//		while (container.isValidPosition(currPos[0], currPos[1]) == true &&
+//				container.hasWall(currPos[0], currPos[1], backward) == false){
+//
+//			System.out.println(" ");
+//			System.out.println("current position for backward sensor: " + Arrays.toString(currPos));
+//			System.out.println("current direction for backward sensor: " + currDir.toString());
+//
+//
+//			
+//			//update currPos
+//			if (currDir == CardinalDirection.North) {
+//				currPos[1] = currPos[1] - 1; 
+//			}
+//			
+//			if (currDir == CardinalDirection.South) {
+//				currPos[1] = currPos[1] + 1; 
+//			}
+//			
+//			if (currDir == CardinalDirection.East) {
+//				currPos[0] = currPos[0] - 1; 
+//			}
+//			
+//			if (currDir == CardinalDirection.West) {
+//				currPos[0] = currPos[0] + 1; 
+//			}
+//			
+//			//update counter
+//			moves++;
+//			System.out.println("Move number: " + moves);
+//			System.out.println(" ");
+//		}
+//		return moves;
+//	}
+//	
+	
+	////////////////////////////////////////////////TESTING THIS////////////////////////////////////////////////////////
+	public int left(){
+		//get current Cardinal direction
+		//get current position
+		
+		//figure out what robot's "left" is
+		//if current direction is North, "left" is to the West
+		//if current direction is West, "left" is to the South
+		//if current direction is South, "left" is to the East
+		//if current direction is East, "left" is to the North
+		
+		//initialize a counter
+		//while there isn't a wall, 
+			//update current position
+			//update counter
+		//if there is a wall, return counter
+		
+		//direction robot is facing
+		CardinalDirection currDir = controller.getCurrentDirection();
+		int[] currPos = controller.getCurrentPosition();
+				
+		CardinalDirection left = CardinalDirection.South;
+		
+		if (currDir == CardinalDirection.South){
+			left = CardinalDirection.West; 
+		}
+		if (currDir == CardinalDirection.West){
+			left = CardinalDirection.North; 
+		}
+		if (currDir == CardinalDirection.North){
+			left = CardinalDirection.East; 
+		}
+		if (currDir == CardinalDirection.East){
+			left = CardinalDirection.South; 
+		}
+
+		System.out.println(" ");
+		System.out.println("Test current position for sensor.left() " + Arrays.toString(currPos));
+		System.out.println(" ");
+		
+		int moves = 0;
+//		assert(this.container == null) : "container in sensors method is null";
+		while (container.isValidPosition(currPos[0], currPos[1]) == true && 
+				container.hasWall(currPos[0], currPos[1], left) == false) {
+			
+			System.out.println(" ");
+			System.out.println("current position for left sensor: " + Arrays.toString(currPos));
+			System.out.println("current direction for left sensor: " + currDir.toString());
+
+
+			//update currPos
+			if (currDir == CardinalDirection.South) {
+				currPos[0] = currPos[0] - 1; 
+			}
+			
+			if (currDir == CardinalDirection.North) {
+				currPos[0] = currPos[0] + 1; 
+			}
+			
+			if (currDir == CardinalDirection.East) {
+				currPos[1] = currPos[1] + 1; 
+			}
+			
+			if (currDir == CardinalDirection.West) {
+				currPos[1] = currPos[1] - 1; 
+			}
+			
+			//update counter
+			moves++;
+			System.out.println("Move number: " + moves);
+			System.out.println(" ");
+		}
+		
+		return moves;
+	}
+	//originally right
+	public int right(){
+		
+		CardinalDirection currDir = controller.getCurrentDirection();
+		int[] currPos = controller.getCurrentPosition();
+		
+		CardinalDirection right = CardinalDirection.South;
+		
+		if (currDir == CardinalDirection.South){
+			right = CardinalDirection.East; 
+		}
+		if (currDir == CardinalDirection.West){
+			right = CardinalDirection.South; 
+		}
+		if (currDir == CardinalDirection.North){
+			right = CardinalDirection.West; 
+		}
+		if (currDir == CardinalDirection.East){
+			right = CardinalDirection.North; 
+		}
+
+		System.out.println(" ");
+		System.out.println("Test current position for sensor.right() " + Arrays.toString(currPos));
+		System.out.println(" ");
+		
+//		container.getStartingPosition() != currPos &&
+//		container.getDistanceToExit(currPos[0], currPos[1]) != 0
+		int moves = 0;
+		while (container.isValidPosition(currPos[0], currPos[1]) == true &&
+				container.hasWall(currPos[0], currPos[1], right) == false){
+
+			System.out.println(" ");
+			System.out.println("current position for right sensor: " + Arrays.toString(currPos));
+			System.out.println("current direction of robot: " + currDir.toString());
+			System.out.println(" direction of right sensor: " + right.toString());
+			System.out.println("current position has wall in this direction" + container.hasWall(currPos[0], currPos[1], right));
+		
+
+			//update currPos
+			if (currDir == CardinalDirection.South) {
+				currPos[0] = currPos[0] + 1; 
+			}
+			
+			if (currDir == CardinalDirection.North) {
+				currPos[0] = currPos[0] - 1; 
+			}
+			
+			if (currDir == CardinalDirection.East) {
+				currPos[1] = currPos[1] - 1; 
+			}
+			
+			if (currDir == CardinalDirection.West) {
+				currPos[1] = currPos[1] + 1; 
+			}
+			
+			//update counter
+			moves++;
+			System.out.println("Move number: " + moves);
+			System.out.println(" ");
+		}
+		
+
+		return moves;
+		
+	}
+	//originally forward
+	public int forward(){
+		CardinalDirection currDir = controller.getCurrentDirection();
+		int[] currPos = controller.getCurrentPosition();
+		
+		CardinalDirection forward = CardinalDirection.South;
+		
+		if (currDir == CardinalDirection.South){
+			forward = CardinalDirection.South; 
+		}
+		if (currDir == CardinalDirection.West){
+			forward = CardinalDirection.West; 
+		}
+		if (currDir == CardinalDirection.North){
+			forward = CardinalDirection.North; 
+		}
+		if (currDir == CardinalDirection.East){
+			forward = CardinalDirection.East; 
+		}
+
+		System.out.println(" ");
+		System.out.println("Test current position for sensor.forward() " + Arrays.toString(currPos));
+		System.out.println(" ");
+		
+		int moves = 0;
+		while (container.isValidPosition(currPos[0], currPos[1]) == true 
+				&& container.hasWall(currPos[0], currPos[1], forward) == false){
+			
+			System.out.println(" ");
+			System.out.println("current position for forward sensor: " + Arrays.toString(currPos));
+			System.out.println("current direction for forward sensor: " + currDir.toString());
+		
+
+			//update currPos
+			if (currDir == CardinalDirection.South) {
+				currPos[1] = currPos[1] + 1; 
+			}
+			
+			if (currDir == CardinalDirection.North) {
+				currPos[1] = currPos[1] - 1; 
+			}
+			
+			if (currDir == CardinalDirection.East) {
+				currPos[0] = currPos[0] + 1; 
+			}
+			
+			if (currDir == CardinalDirection.West) {
+				currPos[0] = currPos[0] - 1; 
+			}
+			
+			//update counter
+			moves++;
+			System.out.println("Move number: " + moves);
+			System.out.println(" ");
+			
+		}
+		return moves;
+	}
+	//originally backward
+	public int backward(){
+		CardinalDirection currDir = controller.getCurrentDirection();
+		int[] currPos = controller.getCurrentPosition();
+		
+		CardinalDirection backward = CardinalDirection.South;
+		
+		if (currDir == CardinalDirection.South){
+			backward = CardinalDirection.North; 
+		}
+		if (currDir == CardinalDirection.West){
+			backward = CardinalDirection.East; 
+		}
+		if (currDir == CardinalDirection.North){
+			backward = CardinalDirection.South; 
+		}
+		if (currDir == CardinalDirection.East){
+			backward = CardinalDirection.West; 
+		}
+		System.out.println(" ");
+		System.out.println("Test current position for sensor.backward() " + Arrays.toString(currPos));
+		System.out.println(" ");
+		
+		
+		int moves = 0;
+		while (container.isValidPosition(currPos[0], currPos[1]) == true &&
+				container.hasWall(currPos[0], currPos[1], backward) == false){
+
+			System.out.println(" ");
+			System.out.println("current position for backward sensor: " + Arrays.toString(currPos));
+			System.out.println("current direction for backward sensor: " + currDir.toString());
+
+
+			
+			//update currPos
+			if (currDir == CardinalDirection.South) {
+				currPos[1] = currPos[1] - 1; 
+			}
+			
+			if (currDir == CardinalDirection.North) {
+				currPos[1] = currPos[1] + 1; 
+			}
+			
+			if (currDir == CardinalDirection.East) {
+				currPos[0] = currPos[0] - 1; 
+			}
+			
+			if (currDir == CardinalDirection.West) {
+				currPos[0] = currPos[0] + 1; 
+			}
+			
+			//update counter
+			moves++;
+			System.out.println("Move number: " + moves);
+			System.out.println(" ");
+		}
+		return moves;
+	}
+	
+	////////////////////////////////////////////////END THIS TEST///////////////////////////////////////////
+	
+	public boolean inRoom(){
+		
+		//initialize room boolean to equal false
+		boolean room = false; 
+		//get current position
+		int[] currPos = controller.getCurrentPosition();
+		
+		//if hasWall North and East of currPos is false
+			//if hasWall West and South of diagonal (currPos[x+1][y+1]) is false
+			//set room to true
+		
+		if (container.hasWall(currPos[0], currPos[1], CardinalDirection.North) == false 
+				&& container.hasWall(currPos[0], currPos[1], CardinalDirection.East) == false) {
+			
+			if (container.hasWall(currPos[0] + 1, currPos[1] + 1, CardinalDirection.West) == false 
+					&& container.hasWall(currPos[0] + 1, currPos[1] + 1, CardinalDirection.South) == false) {
+				
+				room = true; 
+			}
+		}
+		
+		//if hasWall East and South of currPos is false
+			//if hasWall of North and West of diagonal (currPos[x+1][y-1]) is false
+			//set room to true
+		
+		if (container.hasWall(currPos[0], currPos[1], CardinalDirection.East) == false 
+				&& container.hasWall(currPos[0], currPos[1], CardinalDirection.South) == false) {
+			
+			if (container.hasWall(currPos[0] + 1, currPos[1] - 1, CardinalDirection.North) == false 
+					&& container.hasWall(currPos[0] + 1, currPos[1] - 1, CardinalDirection.West) == false) {
+				
+				room = true; 
+			}
+		}
+		
+		//if hasWall South and West of currPos is false
+			//if hasWall of North and East of diagonal (currPos[x-1][y-1]) is false
+			//set room to true
+		
+		if (container.hasWall(currPos[0], currPos[1], CardinalDirection.South) == false 
+				&& container.hasWall(currPos[0], currPos[1], CardinalDirection.West) == false) {
+			
+			if (container.hasWall(currPos[0] - 1, currPos[1] - 1, CardinalDirection.North) == false 
+					&& container.hasWall(currPos[0] - 1, currPos[1] - 1, CardinalDirection.East) == false) {
+				
+				room = true; 
+			}
+		}
+		
+		//if hasWall West and North of currPos is false
+			//if hasWall of East and South of diagonal (currPos[x-1][y+1]) is false
+			//set room to true
+		
+		
+		if (container.hasWall(currPos[0], currPos[1], CardinalDirection.West) == false 
+				&& container.hasWall(currPos[0], currPos[1], CardinalDirection.North) == false) {
+			
+			if (container.hasWall(currPos[0] - 1, currPos[1] + 1, CardinalDirection.East) == false 
+					&& container.hasWall(currPos[0] - 1, currPos[1] + 1, CardinalDirection.South) == false) {
+				
+				room = true; 
+			}
+		}
+		
+		
+		return room;
+	}
+	
+}

@@ -1,0 +1,199 @@
+package falstad;
+
+import falstad.Robot.Direction;
+import falstad.Robot.Turn;
+import generation.Distance;
+import generation.MazeConfiguration;
+
+/**
+ * This class solves a randomly generated maze by using the wall follower algorithm
+ * @author julianadajon
+ *
+ */
+
+public class WallFollower implements RobotDriver{
+
+	
+	BasicRobot basicRobot;
+	int width;
+	int height;
+	Distance distance;
+	MazeController controller;
+	MazeConfiguration container;
+	
+	public WallFollower(){
+		
+	}
+	
+	@Override
+	public void setRobot(BasicRobot r) {
+		basicRobot = r;
+		
+	}
+	
+
+	@Override
+	public void setDimensions(int width, int height) {
+		this.width = width;
+		this.height = height;
+	}
+
+	@Override
+	public void setDistance(Distance distance) {
+		this.distance = distance; 
+		
+	}
+
+	@Override
+	public boolean drive2Exit() throws Exception{
+		if (basicRobot.hasStopped() == true) {
+			throw new Exception();
+		}
+		//while robot is not at exit
+		
+		//if distanceToObstacle(Forward) > 0 and Dist(left) = 0:
+			//move (1)
+		
+		//if distance(foward) = 0 and distance(left) = 0:
+			//rotate right
+		
+			//if forward > 0 and left  = 0: 
+				//move 1
+		
+			//use else here instead of another if statement?***
+			//if forward = 0 and left = 0:
+				//rotate right
+				//move forward 1
+		
+		//if forward = 0 and left = 0:
+			//rotate right
+			//move forward 1
+		
+		while (basicRobot.isAtExit() == false && basicRobot.hasStopped == false){
+			int distforward = basicRobot.distanceToObstacle(Direction.FORWARD);
+			int distleft = basicRobot.distanceToObstacle(Direction.LEFT);
+			int distright = basicRobot.distanceToObstacle(Direction.RIGHT);
+			int distbackward = basicRobot.distanceToObstacle(Direction.BACKWARD);
+
+
+			System.out.println("distance to obstacle forward: " + distforward);
+			System.out.println("distance to obstacle left: " + distleft);
+			System.out.println("distance to obstacle right: " + distright);
+			System.out.println("distance to obstacle backward: " + distbackward);
+
+			//if there is no wall to my left or in front of me, turn right
+				//add cases within if statement******
+			if (basicRobot.distanceToObstacle(Direction.FORWARD) > 0 
+					&& basicRobot.distanceToObstacle(Direction.LEFT) > 0
+					&& basicRobot.hasStopped == false)
+				basicRobot.rotate(Turn.LEFT);
+				basicRobot.move(1, false);
+			
+			//if there is wall to my left and nothing in front of me, move forward
+			if (basicRobot.distanceToObstacle(Direction.FORWARD) > 0 
+					&& basicRobot.distanceToObstacle(Direction.LEFT) == 0
+					&& basicRobot.hasStopped == false){
+				basicRobot.move(1, false);
+			}
+			
+			//if there is a wall in front of me but not to my left
+			if (basicRobot.distanceToObstacle(Direction.FORWARD) == 0 
+					&& basicRobot.distanceToObstacle(Direction.LEFT) > 0
+					&& basicRobot.hasStopped == false){
+				basicRobot.rotate(Turn.LEFT);
+				basicRobot.move(1, false);
+			}
+			//if there is a wall to my left and in front of me, rotate right and move 1 (turn me around)
+			if (basicRobot.distanceToObstacle(Direction.FORWARD) == 0 
+					&& basicRobot.distanceToObstacle(Direction.LEFT) == 0
+					&& basicRobot.hasStopped == false){
+				
+				basicRobot.rotate(Turn.RIGHT);
+				
+				//after rotating right, if there is a wall to my left and nothing in front of me,
+				//move forward
+				if (basicRobot.distanceToObstacle(Direction.FORWARD) > 0
+						&& basicRobot.distanceToObstacle(Direction.LEFT) == 0
+						&& basicRobot.hasStopped == false){
+					basicRobot.move(1,  false);
+				}
+				
+				//if there is a wall to my left and in front of me, rotate right and move 1 (turn me around)
+				if (basicRobot.distanceToObstacle(Direction.FORWARD) == 0 
+						&& basicRobot.distanceToObstacle(Direction.LEFT) == 0
+						&& basicRobot.hasStopped == false){
+					basicRobot.rotate(Turn.RIGHT);
+					basicRobot.move(1,  false);
+				}
+			}
+			//if there is a wall to my left and in front of me, rotate right and move 1 (turn me around)
+			if (basicRobot.distanceToObstacle(Direction.FORWARD) == 0 
+					&& basicRobot.distanceToObstacle(Direction.LEFT) == 0
+					&& basicRobot.hasStopped == false){
+				basicRobot.rotate(Turn.RIGHT);
+				basicRobot.move(1,  false);
+			}	
+
+//used for testing sensors
+//			break;
+			
+		}
+		
+//		//now we are at the exit
+//			//check each direction if you can see exit
+//			//depending on direction of robot, rotate towards exit, then move
+//			if (basicRobot.canSeeExit(Direction.LEFT) == true 
+//					&& basicRobot.hasStopped == false){
+//				basicRobot.rotate(Turn.LEFT);
+//				basicRobot.move(1, false);
+//
+//			}
+//			//may need to switch direction to backward
+//			if (basicRobot.canSeeExit(Direction.FORWARD) == true
+//					&& basicRobot.hasStopped == false){
+//				basicRobot.move(1, false);
+//
+//
+//			}
+//			//may need to switch direction to forward
+//			if (basicRobot.canSeeExit(Direction.BACKWARD) == true
+//					&& basicRobot.hasStopped == false){
+//				basicRobot.rotate(Turn.AROUND);
+//				basicRobot.move(1, false);
+//
+//
+//			}
+//
+//			if (basicRobot.canSeeExit(Direction.RIGHT) == true
+//					&& basicRobot.hasStopped == false){
+//				basicRobot.rotate(Turn.RIGHT);
+//				basicRobot.move(1, false);
+//
+//
+//			}
+			
+		controller = basicRobot.getMazeController();
+		controller.switchToFinishScreen();
+			//when battery runs out, access robot's maze controller??
+			return true;
+		
+	}
+	@Override
+	public float getEnergyConsumption() {
+		// TODO Auto-generated method stub
+		return 2500 - basicRobot.getBatteryLevel();
+	}
+
+	@Override
+	public int getPathLength() {
+		// TODO Auto-generated method stub
+		return basicRobot.getPathLength();
+	}
+
+	@Override
+	public void keyDown(int key) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

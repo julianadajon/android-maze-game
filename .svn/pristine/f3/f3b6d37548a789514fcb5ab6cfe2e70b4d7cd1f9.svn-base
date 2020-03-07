@@ -1,0 +1,196 @@
+package edu.wm.cs.cs301.julianadajon.UI;
+
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+
+import edu.wm.cs.cs301.julianadajon.R;
+import android.support.v7.widget.ButtonBarLayout;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.SeekBar;
+import android.widget.TextView;
+import android.util.Log;
+import android.widget.Button;
+import android.widget.Toast;
+import android.widget.Spinner;
+import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
+import android.content.Intent;
+
+
+public class AMazeActivity extends AppCompatActivity{
+
+    private static SeekBar seekBarLevel;
+    private static TextView textLevel;
+    private static Spinner spinnerExplore;
+    private static Spinner spinnerRobot;
+    private static Button newButton;
+    private static Button revisitButton;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_amaze);
+        seekBar();
+        spinnerExplore();
+        spinnerRobot();
+        newButton();
+        revisitButton();
+    }
+
+    protected void seekBar() {
+        seekBarLevel = (SeekBar)findViewById(R.id.seekBar2);
+        textLevel = (TextView)findViewById(R.id.textView2);
+
+        textLevel.setText("Level: " + seekBarLevel.getProgress());
+
+        seekBarLevel.setOnSeekBarChangeListener(
+                new SeekBar.OnSeekBarChangeListener() {
+                    int progressValue;
+
+                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
+                        progressValue = progress;
+                        textLevel.setText("Level: " + progress);
+                        Toast.makeText(AMazeActivity.this, "Setting Level: " + progressValue, Toast.LENGTH_SHORT).show();
+                        Log.v("AMazeActivity", "level: " + progressValue);
+                    }
+
+                    public void onStartTrackingTouch(SeekBar seekbar){
+//                        Toast.makeText(AMazeActivity.this, "Setting Level in Start Tracking", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                    public void onStopTrackingTouch(SeekBar seekbar){
+                        textLevel.setText("Level: " + progressValue);
+//                        Toast.makeText(AMazeActivity.this, "Setting Level in Stop Tracking", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                }
+
+        );
+    }
+
+    protected void spinnerExplore() {
+        spinnerExplore = (Spinner)findViewById(R.id.spinner);
+        ArrayAdapter adapter = ArrayAdapter.createFromResource(this, R.array.Explore, android.R.layout.simple_spinner_item);
+        spinnerExplore.setAdapter(adapter);
+
+        spinnerExplore.setOnItemSelectedListener(
+                new Spinner.OnItemSelectedListener() {
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l){
+                        TextView myText = (TextView) view;
+                        Toast.makeText(AMazeActivity.this, "You Selected "+ myText.getText(), Toast.LENGTH_SHORT).show();
+                        Log.v("AMazeActivity", "Explorer: " + myText);
+                    }
+
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+
+                    }
+
+                }
+        );
+    }
+
+
+
+    protected void spinnerRobot() {
+        spinnerRobot = (Spinner)findViewById(R.id.spinner3);
+        ArrayAdapter adapter = ArrayAdapter.createFromResource(this, R.array.Robot, android.R.layout.simple_spinner_item);
+        spinnerRobot.setAdapter(adapter);
+
+        spinnerRobot.setOnItemSelectedListener(
+                new Spinner.OnItemSelectedListener() {
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l){
+                        TextView myText = (TextView) view;
+                        Toast toast = Toast.makeText(AMazeActivity.this, "Robot: "+ myText.getText(), Toast.LENGTH_SHORT);
+                        toast.show();
+                        Log.v("AMazeActivity", "Robot: " + myText);
+                    }
+
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+
+                }
+        );
+    }
+
+
+
+    protected void newButton() {
+        newButton = (Button)findViewById(R.id.button);
+        newButton.setOnClickListener(
+
+                new Button.OnClickListener(){
+
+                    public void onClick(View v){
+                        switch (v.getId()) {
+                            case R.id.button :
+                                newButtonClick();
+                                Toast.makeText(AMazeActivity.this, "You clicked New Maze", Toast.LENGTH_SHORT).show();
+                                Log.v("AMazeActivity", "You clicked Generate Maze");
+
+                                break;
+
+                        }
+                    }
+                }
+        );
+
+
+    }
+
+    private void newButtonClick(){
+
+        Intent intent = new Intent(this, GeneratingActivity.class);
+        intent.putExtra("seekBarLevel", seekBarLevel.getProgress());
+        intent.putExtra("spinnerExplore", spinnerExplore.getSelectedItem().toString());
+        intent.putExtra("spinnerRobot", spinnerRobot.getSelectedItem().toString());
+        startActivity(intent);
+        finish();
+    }
+
+
+    protected void revisitButton() {
+        revisitButton = (Button)findViewById(R.id.button9);
+        revisitButton.setOnClickListener(
+
+                new Button.OnClickListener(){
+
+                    public void onClick(View v){
+                        switch (v.getId()) {
+                            case R.id.button9 :
+                                revisitButtonClick();
+                                Toast.makeText(AMazeActivity.this, "You clicked Revisit Maze", Toast.LENGTH_SHORT).show();
+                                Log.v("AMazeActivity", "You clicked Revisit Maze");
+                                break;
+
+                        }
+                    }
+                }
+        );
+    }
+
+    private void revisitButtonClick(){
+
+        Intent intent = new Intent(this, GeneratingActivity.class);
+        intent.putExtra("seekBarLevel", seekBarLevel.getProgress());
+        intent.putExtra("spinnerExplore", spinnerExplore.getSelectedItem().toString());
+        intent.putExtra("spinnerRobot", spinnerRobot.getSelectedItem().toString());
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void onBackPressed(){
+        Intent back = new Intent(this, AMazeActivity.class);
+        startActivity(back);
+        moveTaskToBack(true);
+    }
+}
+
+/////////////////////test////////////////////////////

@@ -1,0 +1,108 @@
+package edu.wm.cs.cs301.julianadajon.UI;
+
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.widget.ProgressBar;
+import android.os.Handler;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.SeekBar;
+import android.content.Intent;
+import android.os.Bundle;
+
+import edu.wm.cs.cs301.julianadajon.R;
+
+public class GeneratingActivity extends AppCompatActivity {
+
+    private static ProgressBar progressBar;
+    private int progressStatus;
+    private Handler handler = new Handler();
+    private TextView percentage;
+
+    private static String seekBarLevel;
+    private static String spinnerExplore;
+    private static String spinnerRobot;
+    private boolean back = false;
+
+
+
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_generating);
+        progressBar();
+    }
+
+    protected void progressBar() {
+        progressBar = (ProgressBar)findViewById(R.id.progressBar);
+        percentage = (TextView)findViewById(R.id.textView7);
+
+        new Thread(new Runnable() {
+
+            public void run() {
+
+                while (progressStatus < 100) {
+
+                    progressStatus += 1;
+                    configureMaze();
+
+                    handler.post(new Runnable() {
+                        public void run() {
+                            progressBar.setProgress(progressStatus);
+                            percentage.setText(progressStatus + "%" );
+                        }
+                    });
+
+                    try {
+                        Thread.sleep(50);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+
+                switchToPlayingScreen();
+
+            }
+        }).start();
+    }
+
+    private void configureMaze() {
+
+        Intent intent = getIntent();
+
+        if (intent.getStringExtra("seekBarLevel") != null) {
+            seekBarLevel = intent.getStringExtra("seekBarLevel");
+        }
+
+        if (intent.getStringExtra("spinnerExplorer") != null) {
+            spinnerExplore = intent.getStringExtra("spinnerExplorer");
+        }
+
+        if (intent.getStringExtra("spinnerRobot") != null) {
+            spinnerRobot = intent.getStringExtra("spinnerRobot");
+        }
+    }
+
+    private void switchToPlayingScreen() {
+     if (back == false){
+            Intent intent = new Intent(this, PlayActivity.class);
+            intent.putExtra("seekBarLevel", seekBarLevel);
+            intent.putExtra("spinnerExplore", spinnerExplore);
+            intent.putExtra("spinnerRobot", spinnerRobot);
+            startActivity(intent);
+            finish();
+        }
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        back = true;
+            Intent back = new Intent(this, AMazeActivity.class);
+            startActivity(back);
+            finish();
+        }
+}

@@ -1,0 +1,307 @@
+package edu.wm.cs.cs301.julianadajon.generation;
+import edu.wm.cs.cs301.julianadajon.generation.Wall;
+import edu.wm.cs.cs301.julianadajon.generation.Cells;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+/**
+ * This class has the responsibility to create a maze of given dimensions (width, height) 
+* together with a solution based on a distance matrix.
+* The MazeBuilder implements Runnable such that it can be run a separate thread.
+* The MazeFactory has a MazeBuilder and handles the thread management.   
+
+* 
+* The maze is built with a randomized version of Eller's algorithm. 
+* The algorithm looks at each row individually and randomly breaks down walls, 
+* first horizontally, then vertically, by tracking sets of cells.
+* 
+* 
+*  @author Juliana Dajon
+* 
+*/
+
+public class MazeBuilderEller extends MazeBuilder implements Runnable{
+
+
+	
+	public MazeBuilderEller() {
+		super();
+		System.out.println("MazeBuilderEller uses Eller's algorithm to generate maze.");
+	}
+	
+	public MazeBuilderEller(boolean det) {
+		super(det);
+		System.out.println("MazeBuilderEller uses Eller's algorithm to generate maze.");
+	}
+	
+	/**
+	 * This method generates pathways into the maze by using Eller's algorithm to make vertical and horizontal connections
+	 * in a particular row, through deletion of random walls. Each cell in the row belongs to a specified set.
+	 * Sets are tracked by means of a hash map. Keys are the the set's name, and the values are corresponding cell locations. 
+	 * When a vertical or horizontal connection is made between two cells, the two sets are merged as one. 
+	 */
+	@Override
+	protected void generatePathways() {
+	
+		HashMap<Integer, ArrayList<int[]>> sets = new HashMap<Integer, ArrayList<int[]>>();
+		
+		int[][] board = new int[width][height];
+		this.populate(board);
+		
+		//UPDATE HASHMAP
+		initializeHashMapWithSingletons(sets, board);
+		
+
+		for (int w = 0; w < width - 1; w++){
+		
+			/// HORIZONTAL CONNECTIONS
+			deleteWallsForHorizontalConnections(sets, board, w, cells);
+	
+			
+			//VERTICAL CONNECTIONS
+			deleteWallsForVerticalConnections(sets, board, w, cells);
+		}
+		
+		//last row is special case
+		deleteWallsForLastRow(sets, board, width - 1, cells);
+		
+
+	}
+
+	
+	/**
+	 * This method randomly makes vertical connections in a particular row.  First, it checks to see what sets are in the row.  
+	 * For each set, it makes at the minimum one vertical connection by deleting a wall between 2 cells. 
+	 * Next, the two sets of the 2 distinct cells are merged together, and the hash map is updated 
+	 * (both processes occur by means of helper methods). 
+	 * @param sets
+	 * @param board
+	 * @param w
+	 * @param cells
+	 */
+	public void deleteWallsForVerticalConnections(HashMap<Integer, ArrayList<int[]>> sets, int[][] board, int w, Cells cells) {
+
+		
+		ArrayList<Integer> setsInRow = new ArrayList<Integer>();
+		
+		for (int h = 0; h < height; h++){
+			boolean setAlreadyHere = setsInRow.contains(board[w][h]);
+			
+			if (setAlreadyHere == false){
+				setsInRow.add(board[w][h]);
+			}
+		}
+		
+		for (int set : setsInRow){
+
+			ArrayList<int[]> locationsList = sets.get(set);
+			ArrayList<int[]> locationsCurrRow = new ArrayList<int[]>();
+			
+			if (locationsList != null){
+				
+				for (int[] loc : locationsList){
+					if (loc[0] == w) {
+						locationsCurrRow.add(loc);
+					}
+				}	
+					
+					int numberOfVertConnections = random.nextIntWithinInterval(1,  locationsCurrRow.size());
+					
+					//connections we've already made
+					ArrayList<Integer> connections = new ArrayList<Integer>();
+					
+					for (int i = 1; i <= numberOfVertConnections; i++){
+						
+						
+						int vertConnectionIndex = random.nextIntWithinInterval(0,  locationsCurrRow.size() - 1);
+						boolean connectionMade = connections.contains(vertConnectionIndex);
+						
+						if (connectionMade == false){
+							
+							connections.add(vertConnectionIndex);
+							int[] addVert = locationsCurrRow.get(vertConnectionIndex);
+							
+							Wall wall = new Wall (addVert[0], addVert[1], CardinalDirection.East);
+							
+							cells.deleteWall(wall);
+
+							// original version
+							mergeSetsInHashMapVertical(sets, board, w, set, addVert);
+							// testing this
+//							mergeSetsInHashMap(sets, board[w][addVert[1]], board[w+1][addVert[1]]);
+							
+							int temp = set;
+							board[w + 1][addVert[1]] = temp;
+							
+						}
+				
+					}
+				}
+			}
+		}
+		
+	/**
+	 * This method randomly makes horizontal connections in a particular row.  It iterates through the cells in the row, 
+	 * comparing a single cell to its neighbor on the right.  If the cells are of different sets,
+	 * it randomly decides whether or not to make a horizontal connection by deleting a wall.
+	 * The 2 sets of the 2 cells are merged, and the hash map is updated (both by means of helper methods). 
+	 * @param sets
+	 * @param board
+	 * @param w
+	 * @param cells
+	 */
+	public void deleteWallsForHorizontalConnections(HashMap<Integer, ArrayList<int[]>> sets, int[][] board, int w, Cells cells) {
+
+		
+		for (int h = 0; h < height - 1; h++){
+			int cell1 = board[w][h];
+			int cell2 = board[w][h+1];
+			
+			if (cell1 != cell2){
+				
+				int x = random.nextIntWithinInterval(0, 1);
+								
+				if (x == 1){
+
+					Wall wall = new Wall(w, h, CardinalDirection.South);
+					cells.deleteWall(wall);
+
+					mergeSetsInHashMap(sets, cell1, cell2);
+									
+					//update values of other cells in same set
+					mergeSetsOnBoard(board, w, h, cell1, cell2, height);
+	
+				}	
+			}
+		}
+	}
+
+	/**
+	 * This method randomly makes horizontal connections in the last row.  It iterates through the cells in the row, 
+	 * comparing the current cell to its neighbor on the right.  If the cells are of different sets,
+	 * it makes a horizontal connection by deleting the wall between the two cells.
+	 * The 2 sets of the 2 cells are merged, and the hash map is updated (both by means of helper methods). 
+	 * @param sets
+	 * @param board
+	 * @param w
+	 * @param cells
+	 */
+	public void deleteWallsForLastRow(HashMap<Integer, ArrayList<int[]>> sets, int[][] board, int w, Cells cells) {
+		for (int h = 0; h < height - 1; h++){
+			int cell1 = board[w][h];
+			int cell2 = board[w][h+1];
+			
+			if (cell1 != cell2){
+	
+					Wall wall = new Wall(w, h, CardinalDirection.South);
+
+
+					cells.deleteWall(wall);
+				
+					mergeSetsInHashMap(sets, cell1, cell2);
+								
+					//update values of other cells in same set
+					mergeSetsOnBoard(board, w, h, cell1, cell2, height);
+	
+			}
+		}
+	}
+	
+	/**
+	 * If the sets of cell1 and cell2 are merged together, this method check the rest of the row
+	 * and updates any cells still contained in cell2's sets (to be merged with cell1's set).
+	 * @param board
+	 * @param w
+	 * @param h
+	 * @param cell1
+	 * @param cell2
+	 * @param height
+	 */
+	public void mergeSetsOnBoard(int[][] board, int w, int h, int cell1, int cell2, int height) {
+		for( int i = h + 1; i < height; i++){
+			if (board[w][i] == cell2){
+				int temp = cell1;
+				board[w][i] = temp;
+			}
+		}
+	}
+	/**
+	 * If arbitrary neighboring cells (cell1 and cell2) merge by means of a horizontal connection, 
+	 * this method updates the hash map and merges the sets of cell1 and cell2.
+	 * @param sets
+	 * @param cell1
+	 * @param cell2
+	 */
+	public void mergeSetsInHashMap(HashMap<Integer, ArrayList<int[]>> sets, int cell1, int cell2) {
+		ArrayList<int[]> cell1Set = sets.get(cell1);
+		ArrayList<int[]> cell2Set = sets.get(cell2);
+
+		
+		for (int[] val : cell2Set){		
+			cell1Set.add(val);
+		}
+		
+		sets.put(cell1, cell1Set);
+
+		sets.remove(cell2);
+	}
+	/**
+	 * If arbitrary neighboring cells (cell1 and cell2) merge by means of a vertical connection, 
+	 * this methods updates the hash map and merges the sets of cell1 and cell2. 
+	 * @param sets
+	 * @param board
+	 * @param w
+	 * @param key
+	 * @param addVert
+	 */
+	public void mergeSetsInHashMapVertical(HashMap<Integer, ArrayList<int[]>> sets, int[][] board, int w, Integer key,
+			int[] addVert) {
+		
+		int[] locationToAdd = {w + 1, addVert[1]};
+		ArrayList<int[]> updateLocations = sets.get(key);
+		updateLocations.add(locationToAdd);
+		sets.put(key, updateLocations);
+		
+		sets.remove(board[w+1][addVert[1]]);
+	}
+	
+	/**
+	 * This method initializes the hash map so that every key (set number) has its own list of cell locations.
+	 * @param sets
+	 * @param board
+	 */
+	public void initializeHashMapWithSingletons(HashMap<Integer, ArrayList<int[]>> sets, int[][] board) {
+		for (int w = 0; w < width; w++){
+			for (int h = 0; h < height; h++){
+				ArrayList<int[]> locations = new ArrayList<int[]>();
+				
+				int[] locationToAdd = {w,h};
+				locations.add(locationToAdd);
+				sets.put(board[w][h], locations);
+			}
+		}
+	}
+	
+	/**
+	 * This method populates a 2D array with given dimensions with unique integer values 1 through width * height. 
+	 * @param board
+	 * @return
+	 */
+	public int[][] populate(int[][] board){
+		//populates board with values, sets up hash map
+		int i = 1;
+		for (int w = 0; w < width; w++){
+			for (int h = 0; h < height; h ++){
+
+				board[w][h] = i; 
+				i++;
+			
+			}
+		}
+		
+		
+		return board; 
+	}
+	
+}		
+ 

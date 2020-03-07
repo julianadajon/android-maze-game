@@ -1,0 +1,269 @@
+package falstad;
+
+import java.awt.Event;
+
+import generation.CardinalDirection;
+import generation.MazeConfiguration;
+import falstad.Sensors;
+
+public class BasicRobot implements Robot {
+
+	MazeController mazeController;
+	float batteryLevel;
+	Sensors sensor;
+	MazeConfiguration container;
+	int pathLength;
+	
+	//BasicRobot is given a controller through setMaze( MazeController );
+	public BasicRobot() {
+		this.batteryLevel = 2500;
+		this.pathLength = 0;
+
+		//do i need to add this. before every variable??
+	}
+	
+	public BasicRobot(Sensors sensor){
+		this.batteryLevel = 2500;
+		this.sensor = sensor;
+
+	}
+	
+	@Override
+	public void setMaze(MazeController maze) {
+		// TODO Auto-generated method stub
+		mazeController = maze; 
+		container = mazeController.getMazeConfiguration();
+		this.sensor = new Sensors(mazeController);
+	}
+	
+	@Override
+	public void rotate(Turn turn) {
+		// TODO Auto-generated method stub
+		
+		//if turn is left
+		if (turn == Turn.LEFT) {
+			if (batteryLevel - 3 >= 0){
+				
+				CardinalDirection dirBeforeRotation = mazeController.getCurrentDirection();
+				System.out.println("direction before rotation: " + dirBeforeRotation.toString());
+
+				mazeController.keyDown(Event.LEFT);
+				batteryLevel = batteryLevel - 3; 
+				
+				CardinalDirection dirAfterRotation = mazeController.getCurrentDirection();
+				System.out.println("direction before rotation: " + dirAfterRotation.toString());
+				
+			}
+		}
+		
+		if (turn == Turn.RIGHT) {
+			if (batteryLevel - 3 >= 0){
+				mazeController.keyDown(Event.RIGHT);
+				batteryLevel = batteryLevel - 3; 
+			}
+		}
+		
+		if (turn == Turn.AROUND) {
+			if (batteryLevel - 6 >= 0){
+				mazeController.keyDown(Event.RIGHT);
+				mazeController.keyDown(Event.RIGHT);
+				batteryLevel = batteryLevel - 6; 
+			}
+		}
+		
+		
+	}
+
+	@Override
+	public void move(int distance, boolean manual) {
+		// TODO Auto-generated method stub
+		//check that manual is true
+		//check that distance to obstacle (forward direction) is not less than the distance
+		//for (int i = 1; i <= distance; i ++){
+		//	mazeController.keyDown(Event.UP);
+		//}
+		
+//		if (manual == true){
+//			while (distanceToObstacle(Direction.FORWARD) >= distance && this.batteryLevel >= 5) {
+//				for (int i = 1; i <= distance; i++){
+//					mazeController.keyDown(Event.UP);
+//					this.batteryLevel = this.batteryLevel - 5; 
+//					
+//				}
+//			}
+//		}
+		
+		if (manual == true){
+			
+			int i = 1;
+			while (hasStopped() == false && batteryLevel >= 5 && i <= distance){
+				mazeController.keyDown(Event.UP);
+				this.batteryLevel = this.batteryLevel - 5; 
+				i++;
+				pathLength++;
+			}
+		}
+	}
+
+	@Override
+	public int getPathLength(){
+		return pathLength;
+	}
+	
+	@Override
+	public int[] getCurrentPosition() throws Exception {
+		// TODO Auto-generated method stub
+		return mazeController.getCurrentPosition();
+	}
+
+
+
+	@Override	
+	public boolean isAtExit() {
+		// TODO Auto-generated method stub
+		
+		int[] currPos = mazeController.getCurrentPosition();
+		if (this.container.getDistanceToExit(currPos[0], currPos[1]) == 0){
+			return true;
+		}
+		return false;
+	}
+
+	
+	@Override
+	public boolean canSeeExit(Direction direction) throws UnsupportedOperationException {
+		// TODO Auto-generated method stub
+		//check what sensor is needed
+		//check if int value sensor returns is the same as distance to exit;
+		//if ^ is true, then return true;
+		int currSensor = 0;
+		int[] currPos = mazeController.getCurrentPosition();
+		
+		if (direction == Direction.LEFT){
+			currSensor = sensor.left();
+		}
+		if (direction == Direction.RIGHT){
+			currSensor = sensor.right();
+		}
+		if (direction == Direction.FORWARD){
+			currSensor = sensor.forward();
+		}
+		if (direction == Direction.BACKWARD){
+			currSensor = sensor.backward();
+		}
+		
+		if (currSensor == this.container.getDistanceToExit(currPos[0], currPos[1])){
+			return true;
+		}
+		
+		return false;
+	}
+
+	@Override
+	public boolean isInsideRoom() throws UnsupportedOperationException {
+		// TODO Auto-generated method stub
+		
+		return this.sensor.inRoom();
+	}
+
+	@Override
+	public boolean hasRoomSensor() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public CardinalDirection getCurrentDirection() {
+		// TODO Auto-generated method stub
+		return mazeController.getCurrentDirection();
+	}
+
+	@Override
+	public float getBatteryLevel() {
+		// TODO Auto-generated method stub
+		return this.batteryLevel;
+	}
+
+	@Override
+	public void setBatteryLevel(float level) {
+		// TODO Auto-generated method stub
+		this.batteryLevel = level; 
+	}
+
+	@Override
+	public float getEnergyForFullRotation() {
+		// TODO Auto-generated method stub
+		return 12;
+	}
+
+	@Override
+	public float getEnergyForStepForward() {
+		// TODO Auto-generated method stub
+		return 5;
+	}
+
+	@Override
+	public boolean hasStopped() {
+		// TODO Auto-generated method stub
+		//check battery level
+		if (batteryLevel == 0){
+			return true;
+		}
+		//check distanceToObstacle to see if something is in front of me
+		if (distanceToObstacle(Direction.FORWARD) == 0){
+			return true;
+		}
+		
+		else {return false;}
+	}
+
+	@Override
+	public int distanceToObstacle(Direction direction) throws UnsupportedOperationException {
+		// TODO Auto-generated method stub
+		
+		int distance = 0;
+		if (direction == Direction.LEFT){
+			distance = sensor.left();
+		}
+		
+		if (direction == Direction.RIGHT){
+			distance = sensor.right();
+		}
+		
+		if (direction == Direction.FORWARD){
+			distance = sensor.forward();
+		}
+		
+		if (direction == Direction.BACKWARD){
+			distance = sensor.backward();
+		}
+		
+		return distance;
+	}
+
+	@Override
+	public boolean hasDistanceSensor(Direction direction) {
+		// TODO Auto-generated method stub
+		
+		boolean hasSensor = false; 
+		
+		if (direction == Direction.LEFT){
+			hasSensor = true;
+		}
+		
+		if (direction == Direction.RIGHT){
+			hasSensor = true;
+		}
+		
+		if (direction == Direction.FORWARD){
+			hasSensor = true;
+		}
+		
+		if (direction == Direction.BACKWARD){
+			hasSensor = true;
+		}
+		
+		return hasSensor;
+	}
+
+}
